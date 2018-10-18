@@ -100,4 +100,16 @@ public class Alimento implements Serializable {
 		return consumo;
 	}
 
+	public Alimento(Long cantidad, Long costoUnitario, String nombre, Unidad unidad) {
+		super();
+		this.cantidad = cantidad;
+		this.costoUnitario = costoUnitario;
+		this.nombre = nombre;
+		this.unidad = unidad;
+	}
+	
+	
+	
+	
+
 }

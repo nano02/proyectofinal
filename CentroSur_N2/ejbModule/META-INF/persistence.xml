@@ -9,7 +9,7 @@
 		<class>com.entities.Baja</class>
 		<class>com.entities.Consumo</class>
 		<class>com.entities.ConsumosMedicamento</class>
-		<class>com.entities.Enfermedade</class>
+		<class>com.entities.Enfermedad</class>
 		<class>com.entities.Guachera</class>
 		<class>com.entities.Madre</class>
 		<class>com.entities.Medicamento</class>

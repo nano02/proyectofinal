@@ -6,16 +6,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import com.excepciones.TamboException;
-import com.models.Alimento;
-import com.models.Ternera;
-import com.models.Usuario;
-import com.models.BajaTernera;
-import com.models.Consumo;
-import com.models.CuadroClinico;
-import com.models.Guachera;
-import com.models.Madre;
-import com.models.Padre;
-import com.models.Peso;
+import com.entities.*;
 
 @Remote
 public interface TamboBeanRemote {

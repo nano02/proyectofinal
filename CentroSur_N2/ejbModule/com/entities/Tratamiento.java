@@ -32,7 +32,7 @@ public class Tratamiento implements Serializable {
 	//bi-directional many-to-one association to Enfermedade
 	@ManyToOne
 	@JoinColumn(name="ID_ENFERMEDAD")
-	private Enfermedade enfermedade;
+	private Enfermedad enfermedad;
 
 	//bi-directional many-to-one association to Ternera
 	@ManyToOne
@@ -74,12 +74,12 @@ public class Tratamiento implements Serializable {
 		this.observaciones = observaciones;
 	}
 
-	public Enfermedade getEnfermedade() {
-		return this.enfermedade;
+	public Enfermedad getEnfermedad() {
+		return this.enfermedad;
 	}
 
-	public void setEnfermedade(Enfermedade enfermedade) {
-		this.enfermedade = enfermedade;
+	public void setEnfermedad(Enfermedad enfermedad) {
+		this.enfermedad = enfermedad;
 	}
 
 	public Ternera getTernera() {

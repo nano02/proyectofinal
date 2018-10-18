@@ -2,7 +2,6 @@ package com.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 
 
@@ -26,7 +25,7 @@ public class Peso implements Serializable {
 	private double peso;
 
 	@Column(name="TIPO_REGISTRO")
-	private BigDecimal tipoRegistro;
+	private Long tipoRegistro;
 
 	//bi-directional many-to-one association to Ternera
 	@ManyToOne
@@ -60,11 +59,11 @@ public class Peso implements Serializable {
 		this.peso = peso;
 	}
 
-	public BigDecimal getTipoRegistro() {
+	public Long getTipoRegistro() {
 		return this.tipoRegistro;
 	}
 
-	public void setTipoRegistro(BigDecimal tipoRegistro) {
+	public void setTipoRegistro(Long tipoRegistro) {
 		this.tipoRegistro = tipoRegistro;
 	}
 
@@ -75,5 +74,15 @@ public class Peso implements Serializable {
 	public void setTernera(Ternera ternera) {
 		this.ternera = ternera;
 	}
+
+	public Peso(Date fecha, double peso, Long tipoRegistro, Ternera ternera) {
+		super();
+		this.fecha = fecha;
+		this.peso = peso;
+		this.tipoRegistro = tipoRegistro;
+		this.ternera = ternera;
+	}
+	
+
 
 }
