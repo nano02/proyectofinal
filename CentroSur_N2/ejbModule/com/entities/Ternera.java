@@ -2,7 +2,6 @@ package com.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +20,7 @@ public class Ternera implements Serializable {
 	@Column(name="ID_TERNERA")
 	private long idTernera;
 
-	private BigDecimal baja;
+	private Long baja;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_NAC")
@@ -30,9 +29,9 @@ public class Ternera implements Serializable {
 	@Column(name="NRO_CARAVANA")
 	private String nroCaravana;
 
-	private BigDecimal parto;
+	private Long parto;
 
-	private BigDecimal raza;
+	private Long raza;
 
 	//bi-directional one-to-one association to Baja
 	@OneToOne(mappedBy="ternera")
@@ -80,11 +79,11 @@ public class Ternera implements Serializable {
 		this.idTernera = idTernera;
 	}
 
-	public BigDecimal getBaja() {
+	public Long getBaja() {
 		return this.baja;
 	}
 
-	public void setBaja(BigDecimal baja) {
+	public void setBaja(Long baja) {
 		this.baja = baja;
 	}
 
@@ -104,19 +103,19 @@ public class Ternera implements Serializable {
 		this.nroCaravana = nroCaravana;
 	}
 
-	public BigDecimal getParto() {
+	public Long getParto() {
 		return this.parto;
 	}
 
-	public void setParto(BigDecimal parto) {
+	public void setParto(Long parto) {
 		this.parto = parto;
 	}
 
-	public BigDecimal getRaza() {
+	public Long getRaza() {
 		return this.raza;
 	}
 
-	public void setRaza(BigDecimal raza) {
+	public void setRaza(Long raza) {
 		this.raza = raza;
 	}
 

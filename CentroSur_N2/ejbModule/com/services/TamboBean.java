@@ -255,7 +255,7 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("Debe ingresar un peso");
 			}*/
 
-			Peso p = new Peso ();
+			Peso p = new Peso();
 			em.persist(peso);
 			em.flush();
 		}catch (PersistenceException e){
@@ -269,7 +269,7 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("Debe seleccionar un tipo de peso");
 			}else {
 				Peso p = em.find(Peso.class, idPeso);
-				em.persist(idPeso);
+				em.remove(idPeso);
 				em.flush();
 			}
 			
@@ -283,17 +283,18 @@ public class TamboBean implements TamboBeanRemote {
 			if(peso.getTernera() == null){
 				throw new TamboException("Debe seleccionar una ternera");
 			}
-			if(peso.getTipo() == null){
+			if(peso.getTipoRegistro() == null){
 				throw new TamboException("Debe seleccionar un tipo de peso");
 			}
 			if(peso.getFecha() == null){
 				throw new TamboException("Debe seleccionar una fecha");
 			}
-			if(peso.getPeso() == null){
+			if(peso.getPeso() == 0){
 				throw new TamboException("Debe ingresar un peso");
 			}
-			daoPeso.edit(peso);
-		}catch (SQLException e){
+			
+			//daoPeso.edit(peso);
+		}catch (PersistenceException e){
 			throw new TamboException("No se pudo editar el peso");
 		}
 	}
@@ -326,14 +327,20 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("El número de caravana ya existe en el sistema");
 			}
 
-			if(ternera.getGuachera().getIdGuachera()== null){
+			if(ternera.getGuachera().getIdGuachera() == 0){
 				throw new TamboException("Debe ingresar el nombre de una guachera válida");
 			}
-			if(ternera.getFechaNacimiento()== null){
+			
+			/*if(ternera.getFechaNac().equals(0)) {
+				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
+			}*/
+			
+			
+			/*if(ternera.getFechaNacimiento() == null{
 				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
 			}
-
-			if(ternera.getPesoNacimiento()== null){
+			 
+			if(ternera.getPesoNacimiento()== 0){
 				throw new TamboException("Debe ingresar un peso de nacimiento válido");
 			}
 
@@ -344,7 +351,7 @@ public class TamboBean implements TamboBeanRemote {
 			if(ternera.getPesoNacimiento()>=10000){
 				throw new TamboException("El peso no puede tener más de 4 enteros y 2 decimales");
 			}
-
+			 */
 			if(ternera.getParto() == null){
 				throw new TamboException("Debe seleccionar un tipo de parto");
 			}
@@ -352,10 +359,12 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("Debe seleccionar una raza");
 			}
 			else {
-				daoTernera.insert(ternera);
+				Ternera ternera = new Ternera();
+				em.persist(ternera);
+				em.flush();
 			}
 
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo crear la ternera");
 		}
 	}
@@ -379,7 +388,7 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("El número de caravana debe seguir el formato (000 seguido de 7 dígitos)");
 			}
 
-			if(ternera.getFechaNacimiento()== null){
+			/*if(ternera.getFechaNacimiento()== null){
 				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
 			}
 
@@ -394,7 +403,7 @@ public class TamboBean implements TamboBeanRemote {
 			if(ternera.getPesoNacimiento()>=10000){
 				throw new TamboException("El peso no puede tener más de 4 enteros");
 			}
-
+			 */
 			if(ternera.getParto() == null){
 				throw new TamboException("Debe seleccionar un tipo de parto");
 			}
@@ -404,8 +413,10 @@ public class TamboBean implements TamboBeanRemote {
 			}
 
 			else {
-				daoTernera.edit(ternera);
-			}
+				/*Ternera ternera = em.find(Ternera.class, nroCaravana);
+				em.persist(ternera);
+				em.merge(null)
+			}*/
 		}
 		catch (SQLException e) {
 			throw new TamboException("No se pudo editar la ternera");
@@ -671,157 +682,7 @@ public class TamboBean implements TamboBeanRemote {
 	}
 
 
-
-	@Override
-	public void altaTernera(com.services.Ternera ternera) throws TamboException {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public void editarTernera(com.services.Ternera ternera) throws TamboException {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public void eliminarTernera(com.services.Ternera ternera) throws TamboException {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public com.services.Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public com.services.Ternera buscarTerneraPorCaravana(String crvnTernera) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-
-
-
-
-	@Override
-	public Usuario buscarUsuarioLogin(String nombreUsuario, String clave) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public Usuario buscarUsuario(String nombreUsuario) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public Usuario buscarApellidoUsuario(String apellidoUsuario) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public LinkedList<com.services.Consumo> consumoPorTernera(com.services.Ternera terneraPorId) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public void altaTernera(com.services.Ternera ternera) throws TamboException {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public void editarTernera(com.services.Ternera ternera) throws TamboException {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public void eliminarTernera(com.services.Ternera ternera) throws TamboException {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public com.services.Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public com.services.Ternera buscarTerneraPorCaravana(String crvnTernera) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-
-
-	@Override
-	public Usuario buscarUsuarioLogin(String nombreUsuario, String clave) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public Usuario buscarUsuario(String nombreUsuario) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public Usuario buscarApellidoUsuario(String apellidoUsuario) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public LinkedList<com.services.Consumo> consumoPorTernera(com.services.Ternera terneraPorId) throws TamboException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	
 }
 
 
