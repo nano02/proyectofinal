@@ -1,7 +1,6 @@
 package com.services;
 
 import java.sql.Date;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,9 +13,11 @@ import javax.naming.NamingException;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 import javax.swing.JOptionPane;
 
 import com.entities.Alimento;
+import com.entities.Baja;
 import com.entities.Consumo;
 import com.entities.Guachera;
 import com.entities.Madre;
@@ -24,6 +25,7 @@ import com.entities.Padre;
 import com.entities.Peso;
 import com.entities.Ternera;
 import com.entities.Unidad;
+import com.entities.Usuario;
 import com.excepciones.TamboException;
 import com.sun.xml.internal.ws.api.pipe.ThrowableContainerPropertySet;
 
@@ -272,7 +274,7 @@ public class TamboBean implements TamboBeanRemote {
 				em.remove(idPeso);
 				em.flush();
 			}
-			
+
 		}catch (PersistenceException e){
 			throw new TamboException("No se pudo eliminar el peso");
 		}
@@ -292,7 +294,7 @@ public class TamboBean implements TamboBeanRemote {
 			if(peso.getPeso() == 0){
 				throw new TamboException("Debe ingresar un peso");
 			}
-			
+
 			//daoPeso.edit(peso);
 		}catch (PersistenceException e){
 			throw new TamboException("No se pudo editar el peso");
@@ -330,16 +332,16 @@ public class TamboBean implements TamboBeanRemote {
 			if(ternera.getGuachera().getIdGuachera() == 0){
 				throw new TamboException("Debe ingresar el nombre de una guachera válida");
 			}
-			
+
 			/*if(ternera.getFechaNac().equals(0)) {
 				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
 			}*/
-			
-			
+
+
 			/*if(ternera.getFechaNacimiento() == null{
 				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
 			}
-			 
+
 			if(ternera.getPesoNacimiento()== 0){
 				throw new TamboException("Debe ingresar un peso de nacimiento válido");
 			}
@@ -417,8 +419,9 @@ public class TamboBean implements TamboBeanRemote {
 				em.persist(ternera);
 				em.merge(null)
 			}*/
+			}
 		}
-		catch (SQLException e) {
+		catch (PersistenceException e) {
 			throw new TamboException("No se pudo editar la ternera");
 		}
 	}
@@ -428,21 +431,23 @@ public class TamboBean implements TamboBeanRemote {
 	 * BAJA 
 	 */
 	@Override
-	public void bajaTernera(BajaTernera baja) throws TamboException {
+	public void bajaTernera(Baja baja) throws TamboException {
 		try {
 			if(baja.getFechaBaja()!= null && baja.getMotivoBaja().isEmpty()){
 				throw new TamboException("Debe ingresar un motivo de baja");
 			}
 			else{
-				daoBaja.insertBaja(baja);
+				//daoBaja.insertBaja(baja);
+				em.persist(baja);
+				em.flush();
 			}
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo realizar la baja de la ternera");
 		}
 	}
 
 	@Override
-	public void muerteTernera(BajaTernera baja) throws TamboException {
+	public void muerteTernera(Baja baja) throws TamboException {
 		try {
 			if(baja.getFechaMuerte()!= null) {	
 				Date fechaBaja = new java.sql.Date(baja.getFechaMuerte().getTime());
@@ -453,11 +458,13 @@ public class TamboBean implements TamboBeanRemote {
 					throw new TamboException("Debe ingresar una causa de muerte");
 				}
 				else {
-					daoBaja.insertMuerte(baja);
+					//daoBaja.insertMuerte(baja);
+					em.persist(baja);
+					em.flush();
 				}
 			}		
 
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo registrar la baja por muerte");
 		}
 	}
@@ -465,8 +472,10 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public void eliminarTernera(Ternera ternera) throws TamboException {
 		try{
-			daoTernera.delete(ternera);
-		} catch (SQLException e){
+			//daoTernera.delete(ternera);
+			em.remove(ternera);
+			em.flush();
+		} catch (PersistenceException e){
 			throw new TamboException("No se pudo eliminar la ternera");
 		}
 	}
@@ -476,8 +485,12 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException {
 		try{			
-			ternera = daoTernera.find(idTernera);
-		} catch (SQLException e){
+			Ternera ternera = em.find(Ternera.class, idTernera);
+			em.persist(ternera);
+			em.merge(ternera);
+			em.flush();
+			//ternera = daoTernera.find(idTernera);
+		} catch (PersistenceException e){
 			throw new TamboException("No se pudo buscar la ternera por ID");
 		}
 		return ternera;
@@ -485,12 +498,15 @@ public class TamboBean implements TamboBeanRemote {
 
 	@Override
 	public void buscarTerneraPorIdTodas(Long idTernera) throws TamboException {
+		//Casteamos a String en idTernera para calcular cantidad de dígitos
+		String idTerneraS = Long.toString(ternera.getIdTernera());
+		
 		try {			
-			if(ternera.getIdTernera()== null){
+			if(ternera.getIdTernera()== 0){
 				throw new TamboException("El número de identificación únicamente puede contener números");
 			}
 
-			else if(ternera.getIdTernera().toString().length()>4){
+			else if(idTerneraS.length()>4){
 				throw new TamboException("El número de identificación debe tener un máximo de 4 dígitos");
 			}
 
@@ -498,9 +514,11 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("El número de identificación debe ser mayor a 0");
 			}
 			else {
-				daoTernera.findTernera(idTernera);
+				//daoTernera.findTernera(idTernera);
+				Ternera ternera = em.find(Ternera.class, idTernera);
+			
 			}
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 
 			throw new TamboException("No se pudo buscar la ternera por ID");
 		}
@@ -510,8 +528,10 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public Ternera buscarTerneraPorCaravana(String crvnTernera) throws TamboException {
 		try {					
-			ternera = daoTernera.findCaravana(crvnTernera);
-		} catch (SQLException e) {
+			//ternera = daoTernera.findCaravana(crvnTernera);
+			Ternera ternera = em.find(Ternera.class, crvnTernera);
+			
+		} catch (PersistenceException e) {
 
 			throw new TamboException("No se pudo buscar la ternera por caravana");
 		}
@@ -522,8 +542,11 @@ public class TamboBean implements TamboBeanRemote {
 	public List<Ternera> buscarTodasTernera() throws TamboException {
 		try {
 			try {
-				terneras = daoTernera.findAll();
-			} catch (SQLException e) {
+				//terneras = daoTernera.findAll();
+				TypedQuery<Ternera> query = em.createQuery("SELECT t FROM Terneras t", Ternera.class);
+				List resultados = query.getResultList();
+				
+			} catch (PersistenceException e) {
 				throw new TamboException("No se pudo obtener el listado de la totalidad de las terneras");
 			}
 		} catch (Exception e) {
@@ -536,7 +559,7 @@ public class TamboBean implements TamboBeanRemote {
 	public Long buscarMaxId() throws TamboException {
 		try {
 			return this.daoTernera.getMaxIdTernera();
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el Máximo Número de Identificador");
 		}
 	}
@@ -545,13 +568,15 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId) throws TamboException {
 
+		//Casteamos a String en idTernera para calcular cantidad de dígitos
+		String idTerneraS = Long.toString(ternera.getIdTernera());
 		try {
 
-			if(ternera.getIdTernera()== null){
+			if(ternera.getIdTernera()== 0){
 				throw new TamboException("El número de identificación únicamente puede contener números");
 			}
 
-			else if(ternera.getIdTernera().toString().length()>4){
+			else if(idTerneraS.length()>4){
 				throw new TamboException("El número de identificación debe tener un máximo de 4 dígitos");
 			}
 
@@ -560,10 +585,14 @@ public class TamboBean implements TamboBeanRemote {
 			}
 
 			else{
-				consumos = daoConsumo.consumoPorTernera(terneraPorId.getIdTernera());
-				return consumos;
+				
+				/*consumos = daoConsumo.consumoPorTernera(terneraPorId.getIdTernera());
+				return consumos;*/
+				TypedQuery<Consumo> query = em.createQuery("SELECT c FROM Consumos c", Consumo.class);
+				List resultados = query.getResultList();
+				
 			}
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el consumo");
 		}
 
@@ -610,10 +639,13 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("La contraseña del usuario debe tener números y letras");
 			}			
 			else {
-				daoUsuario.insert(usuario);
+				//daoUsuario.insert(usuario);
+				Usuario usu = new Usuario();
+				em.persist(usu);
+				em.flush();
 			}
 
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo crear el usuario");
 		}
 
@@ -634,10 +666,11 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("La contraseña del usuario debe tener números y letras");
 			}			
 			else {
-				daoUsuario.edit(usuario);;
+				//daoUsuario.edit(usuario);;
+				
 			}
 
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo crear el usuario");
 		}		
 
@@ -646,8 +679,10 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public void eliminarUsuario(Usuario usuario) throws TamboException {
 		try {
-			daoUsuario.delete(usuario);
-		} catch (SQLException e) {
+			//daoUsuario.delete(usuario);
+			em.remove(usuario);
+			em.flush();
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo eliminar el usuario");
 		}		
 	}
@@ -656,7 +691,7 @@ public class TamboBean implements TamboBeanRemote {
 	public Usuario buscarUsuarioLogin(String nombreUsuario, String clave) throws TamboException {
 		try {
 			return this.daoUsuario.findLogin(nombreUsuario, clave);
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el usuario");
 		}
 	}
@@ -666,7 +701,7 @@ public class TamboBean implements TamboBeanRemote {
 	public Usuario buscarUsuario(String nombreUsuario) throws TamboException {
 		try {
 			return this.daoUsuario.find(nombreUsuario);
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el usuario");
 		}
 	}
@@ -676,13 +711,13 @@ public class TamboBean implements TamboBeanRemote {
 	public Usuario buscarApellidoUsuario(String apellidoUsuario) throws TamboException {
 		try {
 			return this.daoUsuario.findApellido(apellidoUsuario);
-		} catch (SQLException e) {
+		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el usuario");
 		}
 	}
 
 
-	
+
 }
 
 

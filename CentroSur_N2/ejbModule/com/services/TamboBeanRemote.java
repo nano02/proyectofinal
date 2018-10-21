@@ -25,8 +25,8 @@ public interface TamboBeanRemote {
 	Ternera buscarTerneraPorCaravana (String crvnTernera)throws TamboException;
 		
 	//Baja
-	void bajaTernera(BajaTernera baja)throws TamboException;
-	void muerteTernera(BajaTernera baja)throws TamboException;
+	void bajaTernera(Baja baja)throws TamboException;
+	void muerteTernera(Baja baja)throws TamboException;
 	
 	//Madre
 	Madre buscarIdMadre(Long idMadre)throws TamboException;
