@@ -53,7 +53,7 @@ public interface TamboBeanRemote {
 	LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId)throws TamboException;
 
 	//Cuadro Clinico
-	LinkedList<CuadroClinico> diaEvento() throws TamboException;
+	//LinkedList<CuadroClinico> diaEvento() throws TamboException;
 
 	
 	

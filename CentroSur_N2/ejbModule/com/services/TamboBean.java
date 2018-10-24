@@ -27,7 +27,6 @@ import com.entities.Ternera;
 import com.entities.Unidad;
 import com.entities.Usuario;
 import com.excepciones.TamboException;
-import com.sun.xml.internal.ws.api.pipe.ThrowableContainerPropertySet;
 
 /**
  * Session Bean implementation class TamboBean
@@ -62,8 +61,11 @@ public class TamboBean implements TamboBeanRemote {
 
 	boolean terneraExiste (String nroCrvnTernera){
 		try {
-			ternera = daoTernera.findCaravanaTodas(nroCrvnTernera);
-		} catch (SQLException e) {
+			//ternera = daoTernera.findCaravanaTodas(nroCrvnTernera);
+			Ternera ternera = em.find(Ternera.class, nroCrvnTernera);
+			em.flush();
+			return true;
+		} catch (PersistenceException e) {
 			e.printStackTrace();
 		}
 
@@ -253,9 +255,9 @@ public class TamboBean implements TamboBeanRemote {
 			if(peso.getFecha() == null){
 				throw new TamboException("Debe seleccionar una fecha");
 			}
-			/*if(peso.getPeso() == null){
+			if(peso.getPeso() == 0){
 				throw new TamboException("Debe ingresar un peso");
-			}*/
+			}
 
 			Peso p = new Peso();
 			em.persist(peso);
@@ -296,6 +298,10 @@ public class TamboBean implements TamboBeanRemote {
 			}
 
 			//daoPeso.edit(peso);
+			em.find(Peso.class, peso);
+			em.merge(peso);
+			em.flush();
+			
 		}catch (PersistenceException e){
 			throw new TamboException("No se pudo editar el peso");
 		}
@@ -361,8 +367,8 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("Debe seleccionar una raza");
 			}
 			else {
-				Ternera ternera = new Ternera();
-				em.persist(ternera);
+				Ternera ternera2 = new Ternera();
+				em.persist(ternera2);
 				em.flush();
 			}
 
@@ -415,11 +421,12 @@ public class TamboBean implements TamboBeanRemote {
 			}
 
 			else {
-				/*Ternera ternera = em.find(Ternera.class, nroCaravana);
-				em.persist(ternera);
-				em.merge(null)
-			}*/
+				Ternera ternera2 = em.find(Ternera.class, ternera);
+				em.persist(ternera2);
+				em.merge(ternera2);
+				em.flush();
 			}
+			
 		}
 		catch (PersistenceException e) {
 			throw new TamboException("No se pudo editar la ternera");
@@ -486,8 +493,6 @@ public class TamboBean implements TamboBeanRemote {
 	public Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException {
 		try{			
 			Ternera ternera = em.find(Ternera.class, idTernera);
-			em.persist(ternera);
-			em.merge(ternera);
 			em.flush();
 			//ternera = daoTernera.find(idTernera);
 		} catch (PersistenceException e){
@@ -555,14 +560,14 @@ public class TamboBean implements TamboBeanRemote {
 		return terneras;
 	}
 
-	@Override
+	/*@Override
 	public Long buscarMaxId() throws TamboException {
 		try {
 			return this.daoTernera.getMaxIdTernera();
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el Máximo Número de Identificador");
 		}
-	}
+	}*/
 
 	//CONSUMO
 	@Override
@@ -586,8 +591,8 @@ public class TamboBean implements TamboBeanRemote {
 
 			else{
 				
-				/*consumos = daoConsumo.consumoPorTernera(terneraPorId.getIdTernera());
-				return consumos;*/
+				//consumos = daoConsumo.consumoPorTernera(terneraPorId.getIdTernera());
+				//return consumos;
 				TypedQuery<Consumo> query = em.createQuery("SELECT c FROM Consumos c", Consumo.class);
 				List resultados = query.getResultList();
 				
@@ -666,8 +671,10 @@ public class TamboBean implements TamboBeanRemote {
 				throw new TamboException("La contraseña del usuario debe tener números y letras");
 			}			
 			else {
-				//daoUsuario.edit(usuario);;
-				
+				//daoUsuario.edit(usuario);
+				em.find(Usuario.class, usuario);
+				em.merge(usuario);
+				em.flush();
 			}
 
 		} catch (PersistenceException e) {
@@ -687,10 +694,29 @@ public class TamboBean implements TamboBeanRemote {
 		}		
 	}
 
+
+
+	@Override
+	public void crearAlimento(Alimento alimento) throws TamboException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	@Override
+	public Long buscarMaxId() throws TamboException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
 	@Override
 	public Usuario buscarUsuarioLogin(String nombreUsuario, String clave) throws TamboException {
 		try {
-			return this.daoUsuario.findLogin(nombreUsuario, clave);
+			//return this.daoUsuario.findLogin(nombreUsuario, clave);
+			em.find(Usuario.class, nombreUsuario);
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el usuario");
 		}
@@ -700,7 +726,9 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public Usuario buscarUsuario(String nombreUsuario) throws TamboException {
 		try {
-			return this.daoUsuario.find(nombreUsuario);
+			//return this.daoUsuario.find(nombreUsuario);
+			Usuario usu = em.find(Usuario.class, nombreUsuario);
+			return usu;
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el usuario");
 		}
@@ -710,10 +738,20 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public Usuario buscarApellidoUsuario(String apellidoUsuario) throws TamboException {
 		try {
-			return this.daoUsuario.findApellido(apellidoUsuario);
+			//return this.daoUsuario.findApellido(apellidoUsuario);
+			Usuario usu = em.find(Usuario.class, apellidoUsuario);
+			return usu;
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el usuario");
 		}
+	}
+
+
+
+	@Override
+	public void bajaPeso(Peso peso) throws TamboException {
+		// TODO Auto-generated method stub
+		
 	}
 
 
