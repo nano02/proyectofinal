@@ -3,9 +3,9 @@
 	<name>ProyectoFinal</name>
 	<comment></comment>
 	<projects>
-		<project>CentroSurJSF</project>
 		<project>ClienteCentroSur</project>
 		<project>CentroSur_N2</project>
+		<project>CentroSur_JSF</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

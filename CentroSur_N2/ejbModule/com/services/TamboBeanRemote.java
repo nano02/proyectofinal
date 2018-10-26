@@ -41,13 +41,6 @@ public interface TamboBeanRemote {
 	//Guachera
 	Guachera buscarNombreGuachera(String nombreGuachera) throws TamboException;
 	
-	//Usuario
-	void altaUsuario(Usuario usuario) throws TamboException;
-	void editarUsuario(Usuario usuario) throws TamboException;
-	void eliminarUsuario(Usuario usuario) throws TamboException;	
-	Usuario buscarUsuarioLogin(String nombreUsuario, String clave)throws TamboException;
-	Usuario buscarUsuario(String nombreUsuario) throws TamboException;
-	Usuario buscarApellidoUsuario(String apellidoUsuario) throws TamboException;
 
 	//Consumo
 	LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId)throws TamboException;

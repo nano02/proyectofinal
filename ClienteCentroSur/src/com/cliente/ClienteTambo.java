@@ -8,7 +8,6 @@ import com.enums.RazaTernera;
 import com.enums.TipoParto;
 import com.services.TamboBeanRemote;
 import com.excepciones.TamboException;
-import com.models.Ternera;
 
 public class ClienteTambo {
 

@@ -20,7 +20,7 @@ public class Usuario implements Serializable {
 
 	private String apellido;
 
-	private String contraseña;
+	private String clave;
 
 	private String nombre;
 
@@ -54,12 +54,12 @@ public class Usuario implements Serializable {
 		this.apellido = apellido;
 	}
 
-	public String getContraseña() {
-		return this.contraseña;
+	public String getClave() {
+		return this.clave;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setClave(String clave) {
+		this.clave = clave;
 	}
 
 	public String getNombre() {
