@@ -103,13 +103,11 @@ public class UsuarioEJBBean {
 		}
 
 	}
-
 	public Usuario eliminarUsuario(Usuario usuario) throws TamboException{
 		em.remove(em.find(Usuario.class, usuario));
 		em.flush();
 		return usuario;
 	}
-
 	public Usuario buscarUsuarioLogin(String nombreUsuario, String clave)throws TamboException {
 		Usuario user = em.find(Usuario.class, nombreUsuario); //falta el parametro clave
 		return user;
