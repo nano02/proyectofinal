@@ -1,12 +1,53 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui"> 
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-<h:head></h:head> 
-<body> 
+<h:head>
+</h:head>
 
-</body> 
+<h:body>
+	<p:panel id="panel" header="New User">
+
+		<p:messages id="msgs" />
+
+		<h:panelGrid columns="3" cellpadding="5">
+			<p:outputLabel for="nombre" value="Nombre:" />
+			<p:inputText id="nombre" value="#{usuarioBean.nombre}"
+				required="true" label="Name">
+				<f:validateLength minimum="2" />
+			</p:inputText>
+			<p:message for="Nombre" display="icon" />
+
+			<p:outputLabel for="apellido" value="Apellido:" />
+			<p:inputText id="apellido" value="#{usuarioBean.apellido}"
+				label="apellido" required="true">
+				<f:validateLength minimum="2" />
+				<p:ajax update="msgapellido" event="keyup" />
+			</p:inputText>
+			<p:message for="apellido" id="apellido" display="icon" />
+			<p:outputLabel for="clave" value="Contraseña:" />
+			<p:inputText id="clave" value="#{usuarioBean.clave}" label="Clave"
+				required="true">
+				<f:validateLength minimum="2" />
+				<p:ajax update="msgclave" event="keyup" />
+			</p:inputText>
+			<p:message for="clave" id="clave" display="icon" />
+
+			<p:outputLabel for="perfil" value="Perfil:" />
+			<p:inputText id="perfil" value="#{usuarioBean.perfil}" label="Perfil"
+				required="true">
+				<f:validateLength minimum="2" />
+				<p:ajax update="msgPerfil" event="keyup" />
+			</p:inputText>
+			<p:message for="perfil" id="msgPerfil" display="icon" />
+
+
+		</h:panelGrid>
+
+		<p:commandButton value="Crear" update="panel"
+			actionListener="#{usuarioBean.crearUsuario()}" icon="ui-icon-check" />
+	</p:panel>
+</h:body>
 </html>

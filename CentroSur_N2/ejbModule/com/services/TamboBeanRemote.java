@@ -14,7 +14,7 @@ public interface TamboBeanRemote {
 	// Alimento
 	void crearAlimento(Alimento alimento) throws TamboException;
 	
-	// Ternera
+	/* Ternera
 	void altaTernera(Ternera ternera) throws TamboException;
 	Long buscarMaxId()throws TamboException;
 	void editarTernera(Ternera ternera) throws TamboException;
@@ -27,6 +27,7 @@ public interface TamboBeanRemote {
 	//Baja
 	void bajaTernera(Baja baja)throws TamboException;
 	void muerteTernera(Baja baja)throws TamboException;
+	*/
 	
 	//Madre
 	Madre buscarIdMadre(Long idMadre)throws TamboException;

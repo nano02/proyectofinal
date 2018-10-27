@@ -122,4 +122,16 @@ public class UsuarioEJBBean {
 	}
 
 
+	public Usuario altaUsuario(String nombre, String apellido, String clave, String perfil) {
+		Usuario user = new Usuario();
+		user.setNombre(nombre);
+		user.setApellido(apellido);
+		user.setClave(clave);
+		user.setPerfil(perfil);
+		em.persist(user);
+		em.flush();
+		return user;
+	}
+
+
 }
