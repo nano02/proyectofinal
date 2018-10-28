@@ -8,7 +8,7 @@ import com.entities.Usuario;
 import com.services.UsuarioEJBBean;
 
 
-@ManagedBean
+@ManagedBean(name="usuario")
 @SessionScoped
 public class UsuarioBean {
 
@@ -21,12 +21,13 @@ public class UsuarioBean {
 	private String apellido;
 	private String clave;
 	private String perfil;
+	//Ojo Perfil es un enumerado
 	
 	
 	
 	public String crearUsuario() {
 		try {
-			usuariosEJBBean.altaUsuario(nombre, apellido, clave,perfil);
+			usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil);
 			return "mostrar";
 		} catch (Exception e) {
 			return null;
@@ -53,6 +54,8 @@ public class UsuarioBean {
 		}
 	}
 
+	
+	
 	public UsuarioEJBBean getUsuariosEJBBean() {
 		return usuariosEJBBean;
 	}

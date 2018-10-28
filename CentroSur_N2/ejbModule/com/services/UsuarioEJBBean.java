@@ -1,5 +1,7 @@
 package com.services;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -59,7 +61,8 @@ public class UsuarioEJBBean {
 	}
 	
 
-	public void altaUsuario(Usuario usuario) throws TamboException {
+	public Usuario altaUsuario(String nombre, String apellido, String clave, String perfil) throws TamboException {
+		Usuario usuario  = new Usuario();
 		boolean validNombre = isSoloTexto(usuario.getNombre());
 		boolean validApellido = isSoloTexto(usuario.getApellido());
 		boolean validContrasenia = isTextoNumeros(usuario.getClave());
@@ -93,9 +96,13 @@ public class UsuarioEJBBean {
 				throw new TamboException("La contraseña del usuario debe tener números y letras");
 			}			
 			else {
-				Usuario usu = new Usuario();
-				em.persist(usu);
+				usuario.setNombre(nombre);
+				usuario.setApellido(apellido);
+				usuario.setClave(clave);
+				usuario.setPerfil(perfil);
+				em.persist(usuario);
 				em.flush();
+				return usuario;
 			}
 
 		} catch (PersistenceException e) {
@@ -120,18 +127,8 @@ public class UsuarioEJBBean {
 		Usuario user = em.find(Usuario.class, apellidoUsuario);
 		return user;
 	}
-
-
-	public Usuario altaUsuario(String nombre, String apellido, String clave, String perfil) {
-		Usuario user = new Usuario();
-		user.setNombre(nombre);
-		user.setApellido(apellido);
-		user.setClave(clave);
-		user.setPerfil(perfil);
-		em.persist(user);
-		em.flush();
-		return user;
+	public List<Usuario> obtenerUsuarios(){
+		return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
 	}
-
 
 }
