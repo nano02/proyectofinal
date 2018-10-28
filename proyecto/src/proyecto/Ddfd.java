@@ -11,4 +11,9 @@ felipe
 Maria 15:27
 Felipe: 15:30
 Andrea : 16:11
+<<<<<<< HEAD
 uiuiu  6776hh
+=======
+Paola: 21:14
+Felipe 21:16
+>>>>>>> branch 'master' of https://github.com/nano02/proyectofinal
