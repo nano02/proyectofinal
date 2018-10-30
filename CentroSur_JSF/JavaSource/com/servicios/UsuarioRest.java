@@ -44,7 +44,7 @@ public class UsuarioRest {
     @Path("/{idUsuario}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public void deleteUsuario(@PathParam("idUsuario") Long idUsuario) throws TamboException {
-        usuariosEJBBean.eliminarUsuario(null);
+        usuariosEJBBean.eliminarUsuario(idUsuario);
     }
 
 	

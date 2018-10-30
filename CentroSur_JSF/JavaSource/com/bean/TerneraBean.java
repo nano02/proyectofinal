@@ -50,7 +50,8 @@ public class TerneraBean {
 		
 	}
 	
-	
+
+
 	public String bajaTernera() {
 		try {
 			terneraEJBBean.bajaTernera(null);

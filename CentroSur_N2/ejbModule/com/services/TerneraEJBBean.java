@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 
 import com.entities.Baja;
 import com.entities.Ternera;
+import com.entities.Usuario;
 import com.excepciones.TamboException;
 
 /**
@@ -231,9 +232,9 @@ public class TerneraEJBBean {
 	}
 
 
-	public void eliminarTernera(Ternera ternera) throws TamboException {
+	public void eliminarTernera(Long  idTernera) throws TamboException {
 		try{
-			em.remove(ternera);
+			em.remove(em.find(Ternera.class, idTernera));
 			em.flush();
 		} catch (PersistenceException e){
 			throw new TamboException("No se pudo eliminar la ternera");
