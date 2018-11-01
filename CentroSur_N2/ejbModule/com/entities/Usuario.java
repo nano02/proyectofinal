@@ -3,6 +3,8 @@ package com.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.enums.PerfilUsuario;
+
 
 /**
  * The persistent class for the USUARIOS database table.
@@ -24,7 +26,7 @@ public class Usuario implements Serializable {
 
 	private String nombre;
 
-	private String perfil;
+	private PerfilUsuario perfil;
 
 	private String usuario;
 
@@ -70,12 +72,17 @@ public class Usuario implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public String getPerfil() {
-		return this.perfil;
+
+	public PerfilUsuario getPerfil() {
+		return perfil;
 	}
 
-	public void setPerfil(String perfil) {
+	public void setPerfil(PerfilUsuario perfil) {
 		this.perfil = perfil;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public String getUsuario() {

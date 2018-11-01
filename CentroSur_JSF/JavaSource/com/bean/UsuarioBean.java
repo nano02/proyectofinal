@@ -5,6 +5,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import com.entities.Usuario;
+import com.enums.PerfilUsuario;
 import com.services.UsuarioEJBBean;
 
 
@@ -20,8 +21,8 @@ public class UsuarioBean {
 	private String nombre;
 	private String apellido;
 	private String clave;
-	private String perfil;
-	//Ojo Perfil es un enumerado
+	private PerfilUsuario perfil;
+
 	
 	
 	
@@ -96,13 +97,14 @@ public class UsuarioBean {
 		this.clave = clave;
 	}
 
-	public String getPerfil() {
+	public PerfilUsuario getPerfil() {
 		return perfil;
 	}
 
-	public void setPerfil(String perfil) {
+	public void setPerfil(PerfilUsuario perfil) {
 		this.perfil = perfil;
 	}
+
 	
 
 }

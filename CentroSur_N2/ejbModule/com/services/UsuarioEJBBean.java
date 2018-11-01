@@ -1,5 +1,6 @@
 package com.services;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -7,8 +8,10 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.persistence.TypedQuery;
 
 import com.entities.Usuario;
+import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
 
 /**
@@ -61,7 +64,7 @@ public class UsuarioEJBBean {
 	}
 	
 
-	public Usuario altaUsuario(String nombre, String apellido, String clave, String perfil) throws TamboException {
+	public Usuario altaUsuario(String nombre, String apellido, String clave, PerfilUsuario perfil) throws TamboException {
 		Usuario usuario  = new Usuario();
 		boolean validNombre = isSoloTexto(usuario.getNombre());
 		boolean validApellido = isSoloTexto(usuario.getApellido());
@@ -126,8 +129,11 @@ public class UsuarioEJBBean {
 		Usuario user = em.find(Usuario.class, apellidoUsuario);
 		return user;
 	}
-	public List<Usuario> obtenerUsuarios(){
-		return em.createQuery("SELECT u FROM Usuario u", Usuario.class).getResultList();
+	public LinkedList<Usuario> obtenerUsuarios(){
+		LinkedList<Usuario> listaUsuarios = new LinkedList<>();
+		TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u", Usuario.class);
+		listaUsuarios.addAll(query.getResultList());
+		return listaUsuarios;
 	}
 
 }

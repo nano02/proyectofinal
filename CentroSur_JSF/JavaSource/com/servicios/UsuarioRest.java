@@ -1,5 +1,6 @@
 package com.servicios;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -13,6 +14,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import com.entities.Usuario;
+import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
 import com.services.UsuarioEJBBean;
 
@@ -28,8 +30,15 @@ public class UsuarioRest {
     // /contextPath/servletPath/usuarios
     @GET
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public List<Usuario> getUsuarios() {
-        return usuariosEJBBean.obtenerUsuarios();
+    public LinkedList<Usuario> obtenerUsuarios() throws TamboException{
+        LinkedList<Usuario> listaUsuarios = null; 
+    	try {
+    		 listaUsuarios = usuariosEJBBean.obtenerUsuarios();
+		} catch (Exception e) {
+			throw new TamboException(e.getMessage());
+		}
+       return listaUsuarios;
+    
     }
  
     // URI:
@@ -37,9 +46,15 @@ public class UsuarioRest {
     @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public void addUsuario(String nombre, String apellido, String clave, String perfil) throws TamboException {
-        usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil);
+        try {
+        	usuariosEJBBean.altaUsuario(nombre, apellido, clave, PerfilUsuario.valueOf(perfil.toUpperCase()));
+		} catch (Exception e) {
+			throw new TamboException(e.getMessage());
+		}
+    	
     }
   
+    
     @DELETE
     @Path("/{idUsuario}")
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
