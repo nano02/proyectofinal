@@ -1,6 +1,7 @@
 package com.services;
 
 import java.sql.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -11,8 +12,14 @@ import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
 import com.entities.Baja;
+import com.entities.Guachera;
+import com.entities.Madre;
+import com.entities.Padre;
+import com.entities.Peso;
 import com.entities.Ternera;
 import com.entities.Usuario;
+import com.enums.RazaTernera;
+import com.enums.TipoParto;
 import com.excepciones.TamboException;
 
 /**
@@ -69,62 +76,89 @@ public class TerneraEJBBean {
 
 
 
-	public void altaTernera(Ternera ternera) throws TamboException {
+	public void altaTernera(int idTernera, String nroCaravana, int idGuachera, int idMadre, int idPadre, Date fechaNac, int baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
 		try{
 
+			Guachera guachera = new Guachera();
+			Madre madre = new Madre();
+			Padre padre = new Padre();
+			Ternera ternera = new Ternera();
+			Baja bajaTernera = new Baja();
+			madre.setIdMadre(idMadre);
+			padre.setIdPadre(idPadre);
+
+			//ValidaciÃ³n de nÃºmero de caravana 
 			if(ternera.getNroCaravana().isEmpty()){
-				throw new TamboException("El número de caravana no puede estar vacío");
+				throw new TamboException("El nÃºmero de caravana no puede estar vacÃ­o");
 			}
 			else if(ternera.getNroCaravana().length()!=10){
-				throw new TamboException("El número de caravana debe tener 10 dígitos");
+				throw new TamboException("El nÃºmero de caravana debe tener 10 dÃ­gitos");
 			}
 			else if(!tryParseLong(ternera.getNroCaravana())){
-				throw new TamboException("El número de caravana debe contener únicamente números");
+				throw new TamboException("El nÃºmero de caravana debe contener ï¿½nicamente nï¿½meros");
 			}
 			else if(Long.parseLong(ternera.getNroCaravana())<= 0){
-				throw new TamboException("El número de caravana debe ser mayor a 0");
+				throw new TamboException("El nÃºmero de caravana debe ser mayor a 0");
 			}
 			else if(!crvnIsValid(Long.parseLong(ternera.getNroCaravana()))){
-				throw new TamboException("El número de caravana debe seguir el formato (000 seguido de 7 dígitos)");
+				throw new TamboException("El nÃºmero de caravana debe seguir el formato (000 seguido de 7 dï¿½gitos)");
 			}
 			else if(terneraExiste(ternera.getNroCaravana())){
-				throw new TamboException("El número de caravana ya existe en el sistema");
+				throw new TamboException("El nÃºmero de caravana ya existe en el sistema");
+			}
+			else {
+				ternera.setNroCaravana(nroCaravana);
 			}
 
+			//ValidaciÃ³n de nÃºmero de guachera
 			if(ternera.getGuachera().getIdGuachera() == 0){
-				throw new TamboException("Debe ingresar el nombre de una guachera válida");
+				throw new TamboException("Debe ingresar el nombre de una guachera vÃ¡lida");
+			}
+			else {
+				ternera.setGuachera(guachera);
 			}
 
-			if(ternera.getFechaNac().equals(0)) {
-				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
+			//ValidaciÃ³n de fecha de nacimiento
+			if(ternera.getFechaNac().getTime() ==0) {
+				throw new TamboException("Debe seleccionar una fecha de nacimiento vÃ¡lida (DD/MM/AA)");
 			}
 
-
-			if(ternera.getFechaNac() == null){
-				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
+			else if(ternera.getFechaNac() == null){
+				throw new TamboException("Debe seleccionar una fecha de nacimiento vï¿½lida (DD/MM/AA)");
+			}
+			else {
+				ternera.setFechaNac(fechaNac);
 			}
 
-			if(ternera.getPesos()== null){
-				throw new TamboException("Debe ingresar un peso de nacimiento válido");
+			if(ternera.getBaja().equals(1)){
+				bajaTernera.setIdTernera(idTernera);
 			}
 
-			/*if(ternera.getPesoNacimiento()<=0){
+			//ValidaciÃ³n de peso
+			if(ternera.getPesoNacimiento().equals(0)){
+				throw new TamboException("Debe ingresar un peso de nacimiento vÃ¡lido");
+			}
+
+			if(ternera.getPesoNacimiento()<=0){
 				throw new TamboException("El peso no puede ser menor o igual a 0");
 			}
 
 			if(ternera.getPesoNacimiento()>=10000){
-				throw new TamboException("El peso no puede tener más de 4 enteros y 2 decimales");
-			}*/
-
+				throw new TamboException("El peso no puede tener mÃ¡s de 4 enteros y 2 decimales");
+			}
+			else {
+				ternera.setPesoNacimiento(pesoNac);
+			}
+			//ValidaciÃ³n de Parto
 			if(ternera.getParto() == null){
 				throw new TamboException("Debe seleccionar un tipo de parto");
 			}
+			//ValidaciÃ³n de Raza
 			if(ternera.getRaza()== null){
 				throw new TamboException("Debe seleccionar una raza");
 			}
 			else {
-				Ternera ternera2 = new Ternera();
-				em.persist(ternera2);
+				em.persist(ternera);
 				em.flush();
 			}
 
@@ -134,31 +168,43 @@ public class TerneraEJBBean {
 	}
 
 
-	public void editarTernera(Ternera ternera) throws TamboException {
+	public void editarTernera(int idTernera, String nroCaravana, int idGuachera, int idMadre, int idPadre, Date fechaNac, int baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
 		try{
+
+			Guachera guachera = new Guachera();
+			Madre madre = new Madre();
+			Padre padre = new Padre();
+			Baja bajaTernera = new Baja();
+			madre.setIdMadre(idMadre);
+			padre.setIdPadre(idPadre);
+			guachera.setIdGuachera(idGuachera);
+			bajaTernera.setIdTernera(idTernera);
+
+			Ternera ternera = em.find(Ternera.class, idTernera);
+
+
 			if(ternera.getNroCaravana().isEmpty()){
-				throw new TamboException("El número de caravana no puede estar vacío");
+				throw new TamboException("El nÃºmero de caravana no puede estar vacÃ­o");
 			}
 			else if(ternera.getNroCaravana().length()!=10){
-				throw new TamboException("El número de caravana debe tener 10 dígitos");
+				throw new TamboException("El nÃºmero de caravana debe tener 10 dÃ­gitos");
 			}
 			else if(!tryParseLong(ternera.getNroCaravana())){
-				throw new TamboException("El número de caravana debe contener únicamente números");
+				throw new TamboException("El nÃºmero de caravana debe contener Ãºnicamente nï¿½meros");
 			}
 			else if(Long.parseLong(ternera.getNroCaravana())<= 0){
-				throw new TamboException("El número de caravana debe ser mayor a 0");
+				throw new TamboException("El nÃºmero de caravana debe ser mayor a 0");
 			}
 			else if(!crvnIsValid(Long.parseLong(ternera.getNroCaravana()))){
-				throw new TamboException("El número de caravana debe seguir el formato (000 seguido de 7 dígitos)");
+				throw new TamboException("El nÃºmero de caravana debe seguir el formato (000 seguido de 7 dï¿½gitos)");
 			}
 
 			if(ternera.getFechaNac() == null){
-				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
+				throw new TamboException("Debe seleccionar una fecha de nacimiento vÃ¡lida (DD/MM/AA)");
 			}
 
-			/*
-			if(ternera.getPesos() == null){
-				throw new TamboException("Debe ingresar un peso de nacimiento válido");
+			if(ternera.getPesoNacimiento() == null){
+				throw new TamboException("Debe ingresar un peso de nacimiento vÃ¡lida");
 			}
 
 			if(ternera.getPesoNacimiento()<=0){
@@ -166,9 +212,9 @@ public class TerneraEJBBean {
 			}
 
 			if(ternera.getPesoNacimiento()>=10000){
-				throw new TamboException("El peso no puede tener más de 4 enteros");
+				throw new TamboException("El peso no puede tener mÃ¡s de 4 enteros");
 			}
-			 */
+
 			if(ternera.getParto() == null){
 				throw new TamboException("Debe seleccionar un tipo de parto");
 			}
@@ -178,9 +224,7 @@ public class TerneraEJBBean {
 			}
 
 			else {
-				Ternera ternera2 = em.find(Ternera.class, ternera);
-				em.persist(ternera2);
-				em.merge(ternera2);
+				em.persist(ternera);
 				em.flush();
 			}
 
@@ -195,12 +239,18 @@ public class TerneraEJBBean {
 	 * BAJA 
 	 */
 
-	public void bajaTernera(Baja baja) throws TamboException {
+	public void bajaTernera(int idTernera, Date fechaBaja, String motivo) throws TamboException {
 		try {
+
+			Baja baja = new Baja();
+
 			if(baja.getFechaBaja()!= null && baja.getMotivoBaja().isEmpty()){
 				throw new TamboException("Debe ingresar un motivo de baja");
 			}
 			else{
+				baja.setIdTernera(idTernera);
+				baja.setFechaBaja(fechaBaja);
+				baja.setMotivoBaja(motivo);
 				em.persist(baja);
 				em.flush();
 			}
@@ -210,21 +260,25 @@ public class TerneraEJBBean {
 	}
 
 
-	public void muerteTernera(Baja baja) throws TamboException {
+	public void muerteTernera(int idTernera, Date fechaMuerte, String causaMuerte, Date fechaBaja, String motivoBaja) throws TamboException {
 		try {
-			if(baja.getFechaMuerte()!= null) {	
-				Date fechaBaja = new java.sql.Date(baja.getFechaMuerte().getTime());
-				baja.setFechaBaja(fechaBaja);
-				baja.setMotivoBaja("Muerte");
 
-				if(baja.getCausaMuerte().isEmpty()){
-					throw new TamboException("Debe ingresar una causa de muerte");
-				}
-				else {
-					em.persist(baja);
-					em.flush();
-				}
-			}		
+			Baja baja = new Baja();
+			if(baja.getFechaMuerte()!= null) {	
+				baja.setFechaMuerte(fechaMuerte);
+				Date fecha = new java.sql.Date(baja.getFechaMuerte().getTime());
+				baja.setFechaBaja(fecha);
+				baja.setMotivoBaja("Muerte");
+			}
+			else if(baja.getCausaMuerte().isEmpty()){
+				throw new TamboException("Debe ingresar una causa de muerte");
+			}
+			else {
+
+				baja.setCausaMuerte(causaMuerte);
+				em.persist(baja);
+				em.flush();
+			}	
 
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo registrar la baja por muerte");
@@ -244,9 +298,8 @@ public class TerneraEJBBean {
 
 	public Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException {
 		try{			
-			Ternera ternera = em.find(Ternera.class, idTernera);
-			em.flush();
-			return ternera;	
+			TypedQuery<Ternera> query =  em.createQuery("SELECT t FROM Terneras t WHERE t.id_ternera LIKE :idternera AND t.baja :0", Ternera.class).setParameter("idTernera", idTernera);
+			return query.getResultList().get(0);
 		} catch (PersistenceException e){
 			throw new TamboException("No se pudo buscar la ternera por ID");
 		}
@@ -254,25 +307,26 @@ public class TerneraEJBBean {
 	}
 
 
-	public void buscarTerneraPorIdTodas(Long idTernera) throws TamboException {
-		//Casteamos a String el idTernera para calcular cantidad de dígitos
+	public Ternera buscarTerneraPorIdTodas(Long idTernera) throws TamboException {
+		//Casteamos a String el idTernera para calcular cantidad de dï¿½gitos
 		Ternera ternera = new Ternera();
 		String idTerneraS = Long.toString(ternera.getIdTernera());
 
 		try {			
 			if(ternera.getIdTernera()== 0){
-				throw new TamboException("El número de identificación únicamente puede contener números");
+				throw new TamboException("El nÃºmero de identificaciÃ³n Ãºnicamente puede contener nÃºmeros");
 			}
 
 			else if(idTerneraS.length()>4){
-				throw new TamboException("El número de identificación debe tener un máximo de 4 dígitos");
+				throw new TamboException("El nÃºmero de identificaciÃ³n debe tener un mximo de 4 dÃ­gitos");
 			}
 
 			else if(ternera.getIdTernera() <= 0){
-				throw new TamboException("El número de identificación debe ser mayor a 0");
+				throw new TamboException("El nÃºmero de identificaciÃ³n debe ser mayor a 0");
 			}
 			else {
-				ternera = em.find(Ternera.class, idTernera);
+				TypedQuery<Ternera> query =  em.createQuery("SELECT t FROM Terneras t WHERE t.id_ternera LIKE :idternera ", Ternera.class).setParameter("idTernera", idTernera);
+				return query.getResultList().get(0);
 			}
 		} catch (PersistenceException e) {
 
@@ -284,8 +338,9 @@ public class TerneraEJBBean {
 
 	public Ternera buscarTerneraPorCaravana(String crvnTernera) throws TamboException {
 		try {					
-			Ternera ternera = em.find(Ternera.class, crvnTernera);
-			return ternera;
+			TypedQuery<Ternera> query =  em.createQuery("SELECT t FROM Terneras t WHERE t.nro_caravana LIKE :crvnTernera",Ternera.class)
+					.setParameter("crvnTernera", crvnTernera);
+			return query.getResultList().get(0);
 		} catch (PersistenceException e) {
 
 			throw new TamboException("No se pudo buscar la ternera por caravana");

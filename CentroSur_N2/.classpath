@@ -13,5 +13,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/Users/Andy/Desktop/Win10/UTEC/2018/Proyecto Final/com.fasterxml.jackson.annotations.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

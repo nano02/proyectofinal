@@ -2,6 +2,11 @@ package com.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.enums.RazaTernera;
+import com.enums.TipoParto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +26,7 @@ public class Ternera implements Serializable {
 	private long idTernera;
 
 	private Long baja;
+	private Double pesoNacimiento;
 
 	@Temporal(TemporalType.DATE)
 	@Column(name="FECHA_NAC")
@@ -29,9 +35,13 @@ public class Ternera implements Serializable {
 	@Column(name="NRO_CARAVANA")
 	private String nroCaravana;
 
-	private Long parto;
+	@Column(name="PARTO")
+	@Enumerated(EnumType.STRING)
+	private TipoParto parto;
 
-	private Long raza;
+	@Column(name="RAZA")
+	@Enumerated(EnumType.STRING)
+	private RazaTernera raza;
 
 	//bi-directional one-to-one association to Baja
 	@OneToOne(mappedBy="ternera")
@@ -43,10 +53,12 @@ public class Ternera implements Serializable {
 
 	//bi-directional many-to-one association to ConsumosMedicamento
 	@OneToMany(mappedBy="ternera")
+	@JsonIgnore
 	private List<ConsumosMedicamento> consumosMedicamentos;
 
 	//bi-directional many-to-one association to Peso
 	@OneToMany(mappedBy="ternera")
+	@JsonIgnore
 	private List<Peso> pesos;
 
 	//bi-directional many-to-one association to Guachera
@@ -57,11 +69,13 @@ public class Ternera implements Serializable {
 	//bi-directional many-to-one association to Madre
 	@ManyToOne
 	@JoinColumn(name="ID_MADRE")
+	@JsonIgnore
 	private Madre madre;
 
 	//bi-directional many-to-one association to Padre
 	@ManyToOne
 	@JoinColumn(name="ID_PADRE")
+	@JsonIgnore
 	private Padre padre;
 
 	//bi-directional many-to-one association to Tratamiento
@@ -103,20 +117,24 @@ public class Ternera implements Serializable {
 		this.nroCaravana = nroCaravana;
 	}
 
-	public Long getParto() {
-		return this.parto;
+	public TipoParto getParto() {
+		return parto;
 	}
 
-	public void setParto(Long parto) {
+	public void setParto(TipoParto parto) {
 		this.parto = parto;
 	}
 
-	public Long getRaza() {
-		return this.raza;
+	public RazaTernera getRaza() {
+		return raza;
 	}
 
-	public void setRaza(Long raza) {
+	public void setRaza(RazaTernera raza) {
 		this.raza = raza;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public Baja getBajaBean() {
@@ -191,6 +209,14 @@ public class Ternera implements Serializable {
 		peso.setTernera(null);
 
 		return peso;
+	}
+
+	public Double getPesoNacimiento() {
+		return pesoNacimiento;
+	}
+
+	public void setPesoNacimiento(Double pesoNacimiento) {
+		this.pesoNacimiento = pesoNacimiento;
 	}
 
 	public Guachera getGuachera() {
