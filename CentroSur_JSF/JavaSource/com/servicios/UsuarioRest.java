@@ -1,7 +1,6 @@
 package com.servicios;
 
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -40,7 +39,8 @@ public class UsuarioRest {
        return listaUsuarios;
     
     }
- 
+    
+   
     // URI:
     // /contextPath/servletPath/usuarios
     @POST
@@ -53,7 +53,7 @@ public class UsuarioRest {
 		}
     	
     }
-  
+      
     
     @DELETE
     @Path("/{idUsuario}")

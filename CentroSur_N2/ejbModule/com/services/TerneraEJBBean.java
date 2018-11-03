@@ -350,10 +350,12 @@ public class TerneraEJBBean {
 	}
 
 
-	public List<Ternera> buscarTodasTernera() throws TamboException {
+	public LinkedList<Ternera> buscarTodasTernera() throws TamboException {
 		try {
 			TypedQuery<Ternera> query = em.createQuery("SELECT t FROM Terneras t", Ternera.class);
-			return query.getResultList();
+			LinkedList<Ternera> lista = new LinkedList<>();
+			lista.addAll(query.getResultList());
+			return lista;
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el listado de la totalidad de las terneras");
 		}
