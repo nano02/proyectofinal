@@ -62,6 +62,26 @@ public class UsuarioBean {
 	public LinkedList<Usuario> obtenerUsuarios() throws TamboException{
 		return usuariosEJBBean.obtenerUsuarios();
 	}
+	
+	public String login() throws TamboException{
+       
+       
+		Usuario loginUsuario = usuariosEJBBean.buscarUsuarioLogin(nombreUsuario, clave);
+        
+        if(usuario!=null && loginUser!=null && password !=null && checkPwd(usuario, DigestUtils.md5Hex(password))) {
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario);
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            perfilLogeado = loginUser.getPerfil();
+            return "menuInicio";
+            
+        } else {
+            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error en Inicio de SesiÛn", 
+            		loginUser!=null ? "Credenciales Inv·lidas" : "No existe un Usuario que con coincida con los datos ingresados");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+            return "index";
+        }
+ 
+    } 
 
 
 
