@@ -1,19 +1,19 @@
 package com.bean;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-
-import com.entities.Consumo;
-import com.entities.ConsumosMedicamento;
 import com.entities.Guachera;
 import com.entities.Madre;
 import com.entities.Padre;
-import com.entities.Peso;
-import com.entities.Tratamiento;
+import com.entities.Ternera;
+import com.enums.RazaTernera;
+import com.enums.TipoParto;
+import com.excepciones.TamboException;
 import com.services.TerneraEJBBean;
 
 @ManagedBean(name="ternera")
@@ -25,70 +25,73 @@ public class TerneraBean {
 	private TerneraEJBBean terneraEJBBean;
 	
 	
-	private long idTernera;
+	private Long idTernera;
 	private Long baja;
 	private Date fechaNac;
 	private String nroCaravana;
 	private Long parto;
 	private Long raza;
-	private List<Consumo> consumos;
-	private List<ConsumosMedicamento> consumosMedicamentos;
-	private List<Peso> pesos;
 	private Guachera guachera;
 	private Madre madre;
 	private Padre padre;
-	private List<Tratamiento> tratamientos;
+	private Double pesoNacimiento;
 	
 	
-	public String altaTernera() {
+	public String altaTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, RazaTernera raza, TipoParto parto, Double pesoNac, Date fechaNacimiento ) {
 		try {
-			terneraEJBBean.altaTernera(null);
+			terneraEJBBean.altaTernera(idTernera, nroCaravana, idGuachera, idMadre, idPadre, fechaNac, idPadre, raza, parto, pesoNac);
 			return "mostrar";
-		} catch (Exception e) {
+		} catch (TamboException e) {
 			return null;
 		}
 		
 	}
 	
 
-
-	public String bajaTernera() {
+	public String bajaTernera(Long idTernera, Date fechaBaja, String motivo) {
 		try {
-			terneraEJBBean.bajaTernera(null);
+			terneraEJBBean.bajaTernera(idTernera, fechaBaja, motivo);
 			return "eliminar";
-		} catch (Exception e) {
+		} catch (TamboException e) {
 			return null;	
 		}
 		
 	}
 	
-	public String buscarTerneraCrvn() {
+	public String buscarTerneraCrvn(String nroCaravana) {
 		try {
 			terneraEJBBean.buscarTerneraPorCaravana(nroCaravana);
 			return "buscarCaravana";
-		} catch (Exception e) {
+		} catch (TamboException e) {
 			return null;
 		}
 	}
 	
-	public String buscarTerneraId() {
+	public String buscarTerneraId(Long idTernera) {
 		try {
 			terneraEJBBean.buscarTerneraPorIdTodas(idTernera);
 			return "buscarTodasId";
-		} catch (Exception e) {
+		} catch (TamboException e) {
 			return null;
 		}
 	}
 	
-	public String buscarTerneraIdViva() {
+	public String buscarTerneraIdViva(Long idTernera) {
 		try {
 			terneraEJBBean.buscarTerneraPorIdViva(idTernera);
 			return "buscarTodasIdVIiva";
-		} catch (Exception e) {
+		} catch (TamboException e) {
 			return null;
 		}
 	}
 	
+	public List<Ternera> buscarTodasTerneras(){
+		try {
+			return terneraEJBBean.buscarTodasTernera();
+		} catch (TamboException e) {
+			return null;
+		}
+	}
 	
 	
 	public long getIdTernera() {
@@ -127,24 +130,15 @@ public class TerneraBean {
 	public void setRaza(Long raza) {
 		this.raza = raza;
 	}
-	public List<Consumo> getConsumos() {
-		return consumos;
+	
+	public Double getPesoNacimiento() {
+		return pesoNacimiento;
 	}
-	public void setConsumos(List<Consumo> consumos) {
-		this.consumos = consumos;
+	
+	public void setPesoNacimiento(Double pesoNacimiento) {
+		this.pesoNacimiento = pesoNacimiento;
 	}
-	public List<ConsumosMedicamento> getConsumosMedicamentos() {
-		return consumosMedicamentos;
-	}
-	public void setConsumosMedicamentos(List<ConsumosMedicamento> consumosMedicamentos) {
-		this.consumosMedicamentos = consumosMedicamentos;
-	}
-	public List<Peso> getPesos() {
-		return pesos;
-	}
-	public void setPesos(List<Peso> pesos) {
-		this.pesos = pesos;
-	}
+
 	public Guachera getGuachera() {
 		return guachera;
 	}
@@ -163,25 +157,6 @@ public class TerneraBean {
 	public void setPadre(Padre padre) {
 		this.padre = padre;
 	}
-	public List<Tratamiento> getTratamientos() {
-		return tratamientos;
-	}
-	public void setTratamientos(List<Tratamiento> tratamientos) {
-		this.tratamientos = tratamientos;
-	}
-
-
-	public TerneraBean(Date fechaNac, String nroCaravana, Long parto, Long raza, List<Peso> pesos, Guachera guachera,
-			Madre madre, Padre padre) {
-		super();
-		this.fechaNac = fechaNac;
-		this.nroCaravana = nroCaravana;
-		this.parto = parto;
-		this.raza = raza;
-		this.pesos = pesos;
-		this.guachera = guachera;
-		this.madre = madre;
-		this.padre = padre;
-	}
+	
 	
 }

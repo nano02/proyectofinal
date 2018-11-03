@@ -126,9 +126,14 @@ public class TamboBean implements TamboBeanRemote {
 	/**
 	 * ALIMENTO
 	 */
-	public void crearAlimento(Long cantidad, Long costoUnitario, String nombre, Unidad unidad) throws TamboException {
+	public void crearAlimento(int idAlimento, String nombre, Long cantidad, Long costoUnitario,  int unidad) throws TamboException {
 		try {
-			Alimento alimento = new Alimento(cantidad, costoUnitario, nombre, unidad);
+			Alimento alimento = new Alimento();
+			Unidad uni = new Unidad();
+			alimento.setUnidad(uni);
+			alimento.setNombre(nombre);
+			alimento.setCantidad(cantidad);
+			alimento.setCostoUnitario(costoUnitario);
 			em.persist(alimento);
 			em.flush();
 		} catch (PersistenceException e) {
@@ -139,9 +144,9 @@ public class TamboBean implements TamboBeanRemote {
 
 	/**
 	 * CUADRO CLINICO
-	 */
-	/**@Override
 
+
+	@Override
 	public LinkedList<CuadroClinico> diaEvento() throws TamboException {
 		try {
 			diaEvento = daoCuadroClinico.diaEvento();
@@ -151,7 +156,7 @@ public class TamboBean implements TamboBeanRemote {
 			throw new TamboException("No se pudo obtener el listado" + e.getErrorCode());			
 		}		
 
-	}**/
+	}*/
 
 	/**
 	 * GUACHERA
@@ -161,7 +166,6 @@ public class TamboBean implements TamboBeanRemote {
 
 		try {
 			Guachera g = em.find(Guachera.class, nombreGuachera);
-			em.flush();
 			return g;
 
 		} catch (PersistenceException e) {
@@ -179,16 +183,15 @@ public class TamboBean implements TamboBeanRemote {
 
 		try {
 			if(idMadre == null){
-				throw new TamboException("El número de identificación de la madre solamente puede tener números");
+				throw new TamboException("El nÃºmero de identificaciÃ³n de la madre solamente puede tener nÃºmeros");
 			}
 			if(idMadre.toString().length()>4){
-				throw new TamboException("El número de identificación de la madre debe tener hasta 4 dígitos");
+				throw new TamboException("El nÃºmero de identificaciÃ³n de la madre debe tener hasta 4 dÃ­gitos");
 			}
-
-			Madre madre = em.find(Madre.class, idMadre);
-			em.flush();
-			return madre;
-
+			else{
+				Madre madre = em.find(Madre.class, idMadre);
+				return madre;
+			}
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener la madre");
 		}
@@ -199,21 +202,19 @@ public class TamboBean implements TamboBeanRemote {
 	 */
 	@Override
 	public Padre buscarIdPadre(Long idPadre) throws TamboException {
-
-		if(idPadre == null){
-			throw new TamboException("El número de identificación del padre solamente puede tener números");
-		}
-		if(idPadre.toString().length()>4){
-			throw new TamboException("El número de identificación del padre debe tener hasta 4 dígitos");
-		}			
-		else { 			
-			try {
-				Padre padre = em.find(Padre.class, idPadre);
-				em.flush();
-				return padre;
-			} catch (PersistenceException e) {
-				throw new TamboException("No se pudo obtener al padre");
+		try{
+			if(idPadre == null){
+				throw new TamboException("El nÃºmero de identificaciÃºn del padre solamente puede tener nÃºmeros");
 			}
+			if(idPadre.toString().length()>4){
+				throw new TamboException("El nÃºmero de identificaciÃ³n del padre debe tener hasta 4 dÃ­gitos");
+			}			
+			else { 			
+				Padre padre = em.find(Padre.class, idPadre);
+				return padre;
+			}	
+		} catch (PersistenceException e) {
+			throw new TamboException("No se pudo obtener al padre");
 		}
 	}
 
@@ -223,22 +224,35 @@ public class TamboBean implements TamboBeanRemote {
 
 	@Override	
 
-	public void altaPeso(Peso peso) throws TamboException{
+	public void altaPeso(int idPeso, int idTernera, long tipoRegistro, Date fecha, double peso) throws TamboException{
 		try{
-			if(peso.getTernera() == null){
+			Peso p = new Peso ();
+			Ternera ternera = new Ternera ();
+			ternera.setIdTernera(idTernera);
+
+			if(p.getTernera() == null){
 				throw new TamboException("Debe seleccionar una ternera");
 			}
-			if(peso.getTipoRegistro() == null){
+			else{
+				p.setTernera(ternera);	
+			}
+			if(p.getTipoRegistro() == null){
 				throw new TamboException("Debe seleccionar un tipo de peso");
 			}
-			if(peso.getFecha() == null){
+			else {
+				p.setTipoRegistro(tipoRegistro);
+			}
+			if(p.getFecha() == null){
 				throw new TamboException("Debe seleccionar una fecha");
 			}
-			if(peso.getPeso() == 0){
+			else {
+				p.setFecha(fecha);
+			}
+			if(p.getPeso() == 0){
 				throw new TamboException("Debe ingresar un peso");
 			}
-			Peso p = new Peso();
-			em.persist(peso);
+
+			em.persist(p);
 			em.flush();
 		}catch (PersistenceException e){
 			throw new TamboException("No se pudo ingresar el peso");
@@ -260,24 +274,37 @@ public class TamboBean implements TamboBeanRemote {
 		}
 	}
 
-	public void editarPeso(Peso peso) throws TamboException{
+	public void editarPeso(int idPeso, int idTernera, long tipoRegistro, Date fecha, double peso) throws TamboException{
 		try{
-			if(peso.getTernera() == null){
+
+			Peso p = em.find(Peso.class, idPeso);
+
+			if(p.getTernera() == null){
 				throw new TamboException("Debe seleccionar una ternera");
 			}
-			if(peso.getTipoRegistro() == null){
+			else{
+				Ternera ternera = new Ternera ();
+				ternera.setIdTernera(idTernera);	
+			}
+			if(p.getTipoRegistro() == null){
 				throw new TamboException("Debe seleccionar un tipo de peso");
 			}
-			if(peso.getFecha() == null){
+			else {
+				p.setTipoRegistro(tipoRegistro);
+			}
+			if(p.getFecha() == null){
 				throw new TamboException("Debe seleccionar una fecha");
 			}
-			if(peso.getPeso() == 0){
+			else{
+				p.setFecha(fecha);
+			}
+			if(p.getPeso() == 0){
 				throw new TamboException("Debe ingresar un peso");
 			}
-
-			//daoPeso.edit(peso);
-			em.find(Peso.class, peso);
-			em.merge(peso);
+			else{
+				p.setPeso(peso);
+			}
+			em.persist(p);
 			em.flush();
 
 		}catch (PersistenceException e){
@@ -290,13 +317,13 @@ public class TamboBean implements TamboBeanRemote {
 	 */
 
 
-	
+
 	/*@Override
 	public Long buscarMaxId() throws TamboException {
 		try {
 			return this.daoTernera.getMaxIdTernera();
 		} catch (PersistenceException e) {
-			throw new TamboException("No se pudo obtener el Máximo Número de Identificador");
+			throw new TamboException("No se pudo obtener el Mï¿½ximo Nï¿½mero de Identificador");
 		}
 	}*/
 
@@ -309,15 +336,15 @@ public class TamboBean implements TamboBeanRemote {
 		try {
 
 			if(ternera.getIdTernera()== 0){
-				throw new TamboException("El número de identificación únicamente puede contener números");
+				throw new TamboException("El nÃºmero de identificaciÃ³n Ãºnicamente puede contener nï¿½meros");
 			}
 
 			else if(idTerneraS.length()>4){
-				throw new TamboException("El número de identificación debe tener un máximo de 4 dígitos");
+				throw new TamboException("El nÃºmero de identificaciÃ³n debe tener un mï¿½ximo de 4 dï¿½gitos");
 			}
 
 			else if(ternera.getIdTernera() <= 0){
-				throw new TamboException("El número de identificación debe ser mayor a 0");
+				throw new TamboException("El nÃºmero de identificaciÃ³n debe ser mayor a 0");
 			}
 
 			else{
@@ -327,22 +354,6 @@ public class TamboBean implements TamboBeanRemote {
 		} catch (PersistenceException e) {
 			throw new TamboException("No se pudo obtener el consumo");
 		}
-
-	}
-
-
-	
-	@Override
-	public void crearAlimento(Alimento alimento) throws TamboException {
-		// TODO Auto-generated method stub
-
-	}
-
-
-
-	@Override
-	public void bajaPeso(Peso peso) throws TamboException {
-		// TODO Auto-generated method stub
 
 	}
 

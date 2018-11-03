@@ -1,5 +1,6 @@
 package com.services;
 
+import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -11,23 +12,6 @@ import com.entities.*;
 @Remote
 public interface TamboBeanRemote {
 
-	// Alimento
-	void crearAlimento(Alimento alimento) throws TamboException;
-	
-	/* Ternera
-	void altaTernera(Ternera ternera) throws TamboException;
-	Long buscarMaxId()throws TamboException;
-	void editarTernera(Ternera ternera) throws TamboException;
-	void eliminarTernera(Ternera ternera) throws TamboException;
-	List<Ternera> buscarTodasTernera() throws TamboException;
-	Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException;
-	void buscarTerneraPorIdTodas(Long idTernera) throws TamboException;
-	Ternera buscarTerneraPorCaravana (String crvnTernera)throws TamboException;
-		
-	//Baja
-	void bajaTernera(Baja baja)throws TamboException;
-	void muerteTernera(Baja baja)throws TamboException;
-	*/
 	
 	//Madre
 	Madre buscarIdMadre(Long idMadre)throws TamboException;
@@ -35,9 +19,7 @@ public interface TamboBeanRemote {
 	//Padre
 	Padre buscarIdPadre(Long idPadre)throws TamboException;
 	
-	//Peso
-	void altaPeso(Peso peso) throws TamboException;
-	void bajaPeso(Peso peso) throws TamboException;
+
 
 	//Guachera
 	Guachera buscarNombreGuachera(String nombreGuachera) throws TamboException;
@@ -45,6 +27,9 @@ public interface TamboBeanRemote {
 
 	//Consumo
 	LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId)throws TamboException;
+
+
+	void altaPeso(int idPeso, int idTernera, long tipoRegistro, Date fecha, double peso) throws TamboException;
 
 	//Cuadro Clinico
 	//LinkedList<CuadroClinico> diaEvento() throws TamboException;

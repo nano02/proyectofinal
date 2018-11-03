@@ -1,6 +1,7 @@
 package com.services;
 
-import java.sql.Date;
+
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class TerneraEJBBean {
 
 
 
-	public void altaTernera(int idTernera, String nroCaravana, int idGuachera, int idMadre, int idPadre, Date fechaNac, int baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
+	public void altaTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
 		try{
 
 			Guachera guachera = new Guachera();
@@ -101,7 +102,7 @@ public class TerneraEJBBean {
 				throw new TamboException("El número de caravana debe ser mayor a 0");
 			}
 			else if(!crvnIsValid(Long.parseLong(ternera.getNroCaravana()))){
-				throw new TamboException("El número de caravana debe seguir el formato (000 seguido de 7 d�gitos)");
+				throw new TamboException("El número de caravana debe seguir el formato (000 seguido de 7 dígitos)");
 			}
 			else if(terneraExiste(ternera.getNroCaravana())){
 				throw new TamboException("El número de caravana ya existe en el sistema");
@@ -168,7 +169,7 @@ public class TerneraEJBBean {
 	}
 
 
-	public void editarTernera(int idTernera, String nroCaravana, int idGuachera, int idMadre, int idPadre, Date fechaNac, int baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
+	public void editarTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
 		try{
 
 			Guachera guachera = new Guachera();
@@ -239,7 +240,7 @@ public class TerneraEJBBean {
 	 * BAJA 
 	 */
 
-	public void bajaTernera(int idTernera, Date fechaBaja, String motivo) throws TamboException {
+	public void bajaTernera(Long idTernera, Date fechaBaja, String motivo) throws TamboException {
 		try {
 
 			Baja baja = new Baja();
@@ -260,7 +261,7 @@ public class TerneraEJBBean {
 	}
 
 
-	public void muerteTernera(int idTernera, Date fechaMuerte, String causaMuerte, Date fechaBaja, String motivoBaja) throws TamboException {
+	public void muerteTernera(Long idTernera, Date fechaMuerte, String causaMuerte, Date fechaBaja, String motivoBaja) throws TamboException {
 		try {
 
 			Baja baja = new Baja();

@@ -1,11 +1,14 @@
 package com.bean;
 
+import java.util.LinkedList;
+
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
+import com.excepciones.TamboException;
 import com.services.UsuarioEJBBean;
 
 
@@ -13,50 +16,60 @@ import com.services.UsuarioEJBBean;
 @SessionScoped
 public class UsuarioBean {
 
-	
+
 	@EJB
 	private UsuarioEJBBean usuariosEJBBean;
-	
+
 	private Long id;
 	private String nombre;
 	private String apellido;
 	private String clave;
 	private PerfilUsuario perfil;
 
-	
-	
-	
+
+
+
 	public String crearUsuario() {
 		try {
 			usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil);
-			return "mostrar";
-		} catch (Exception e) {
+			return "mostrarUsuario";
+		} catch (TamboException e) {
 			return null;
 		}
-		
+
 	}
-	
+
 	public String eliminarUsuruario() {
 		try {
-			usuariosEJBBean.eliminarUsuario(null);
-			return "eliminar";
-		} catch (Exception e) {
+			usuariosEJBBean.eliminarUsuario(id);
+			return "eliminarUsuario";
+		} catch (TamboException e) {
 			return null;	
 		}
-		
+
 	}
-	
+
 	public String buscarUsuario() {
 		try {
-			usuariosEJBBean.buscarUsuario(null);
-			return "buscar";
-		} catch (Exception e) {
+			usuariosEJBBean.buscarUsuario(nombre);
+			return "buscarUsuario";
+		} catch (TamboException e) {
 			return null;
 		}
 	}
 
-	
-	
+
+	public LinkedList<Usuario> obtenerUsuarios() throws TamboException{
+		return usuariosEJBBean.obtenerUsuarios();
+	}
+
+
+
+
+
+
+
+
 	public UsuarioEJBBean getUsuariosEJBBean() {
 		return usuariosEJBBean;
 	}
@@ -105,6 +118,6 @@ public class UsuarioBean {
 		this.perfil = perfil;
 	}
 
-	
+
 
 }

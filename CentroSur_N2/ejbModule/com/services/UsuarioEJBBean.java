@@ -72,31 +72,31 @@ public class UsuarioEJBBean {
 		try{
 
 			if(usuario.getNombre().isEmpty()){
-				throw new TamboException("El nombre del usuario no puede estar vacío");
+				throw new TamboException("El nombre del usuario no puede estar vacÃ­o");
 			}
 			else if(usuario.getNombre().length()> 50){
-				throw new TamboException("El nombre del usuario no puede tener más de 50 letras");
+				throw new TamboException("El nombre del usuario no puede tener mÃ¡s de 50 letras");
 			}
 			else if(!validNombre){
 				throw new TamboException("El nombre del usuario debe contener solamente letras");
 			}
 			if(usuario.getApellido().isEmpty()){
-				throw new TamboException("El apellido del usuario no puede estar vacío");
+				throw new TamboException("El apellido del usuario no puede estar vacÃ­o");
 			}
 			else if(usuario.getApellido().length()> 50){
-				throw new TamboException("El apellido del usuario no puede tener más de 50 letras");
+				throw new TamboException("El apellido del usuario no puede tener mÃ¡s de 50 letras");
 			}
 			else if(!validApellido){
 				throw new TamboException("El apellido del usuario debe contener solamente letras");
 			}
 			if(usuario.getClave().isEmpty()){
-				throw new TamboException("La contraseña del usuario no puede estar vacía");
+				throw new TamboException("La clave del usuario no puede estar vacÃ­a");
 			}
 			else if(usuario.getClave().length()<8 || usuario.getClave().length()>16 ){
-				throw new TamboException("La contraseña debe tener por lo menos 8 dígitos y no superar los 16. Por favor revise el dato ingresado");
+				throw new TamboException("La clave debe tener por lo menos 8 dÃ­gitos y no superar los 16. Por favor revise el dato ingresado");
 			}			
 			else if(!validContrasenia){
-				throw new TamboException("La contraseña del usuario debe tener números y letras");
+				throw new TamboException("La clave del usuario debe tener nÃºmeros y letras");
 			}			
 			else {
 				usuario.setNombre(nombre);
