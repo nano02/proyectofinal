@@ -64,7 +64,7 @@ public class UsuarioEJBBean {
 	}
 	
 
-	public Usuario altaUsuario(String nombre, String apellido, String clave, PerfilUsuario perfil) throws TamboException {
+	public Usuario altaUsuario(String nombre, String apellido, String clave, PerfilUsuario perfil, String nombreUsuario) throws TamboException {
 		Usuario usuario  = new Usuario();
 		boolean validNombre = isSoloTexto(usuario.getNombre());
 		boolean validApellido = isSoloTexto(usuario.getApellido());
@@ -89,6 +89,10 @@ public class UsuarioEJBBean {
 			else if(!validApellido){
 				throw new TamboException("El apellido del usuario debe contener solamente letras");
 			}
+			else{
+				nombreUsuario = nombre + "." + apellido;
+			}
+			
 			if(usuario.getClave().isEmpty()){
 				throw new TamboException("La clave del usuario no puede estar vacía");
 			}
@@ -103,6 +107,7 @@ public class UsuarioEJBBean {
 				usuario.setApellido(apellido);
 				usuario.setClave(clave);
 				usuario.setPerfil(perfil);
+				usuario.setUsuario(nombreUsuario);
 				em.persist(usuario);
 				em.flush();
 				return usuario;

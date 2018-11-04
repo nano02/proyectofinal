@@ -3,8 +3,10 @@ package com.bean;
 import java.util.LinkedList;
 
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
@@ -25,19 +27,21 @@ public class UsuarioBean {
 	private String apellido;
 	private String clave;
 	private PerfilUsuario perfil;
+	private String nombreUsuario;
 
 
 
 
 	public String crearUsuario() {
 		try {
-			usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil);
+			usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil, nombreUsuario);
 			return "mostrarUsuario";
 		} catch (TamboException e) {
 			return null;
 		}
 
 	}
+
 
 	public String eliminarUsuruario() {
 		try {
@@ -63,25 +67,24 @@ public class UsuarioBean {
 		return usuariosEJBBean.obtenerUsuarios();
 	}
 	
-	public String login() throws TamboException{
-       
-       
-		Usuario loginUsuario = usuariosEJBBean.buscarUsuarioLogin(nombreUsuario, clave);
+	public String login() throws TamboException {
+        FacesMessage message = null;
+        Usuario loginUser = usuariosEJBBean.buscarUsuario(nombreUsuario);
         
-        if(usuario!=null && loginUser!=null && password !=null && checkPwd(usuario, DigestUtils.md5Hex(password))) {
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", usuario);
+        if(nombreUsuario!=null && loginUser!=null && clave!=null) {
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nombreUsuario);
             FacesContext.getCurrentInstance().addMessage(null, message);
-            perfilLogeado = loginUser.getPerfil();
+           //Validar perfil del usuario
             return "menuInicio";
-            
         } else {
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error en Inicio de SesiÛn", 
+            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al iniciar sesion", 
             		loginUser!=null ? "Credenciales Inv·lidas" : "No existe un Usuario que con coincida con los datos ingresados");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "index";
         }
  
     } 
+
 
 
 
@@ -138,6 +141,12 @@ public class UsuarioBean {
 		this.perfil = perfil;
 	}
 
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
 
+	public void setNombreUsuario(String nombreUsuario) {
+		this.nombreUsuario = nombreUsuario;
+	}
 
 }

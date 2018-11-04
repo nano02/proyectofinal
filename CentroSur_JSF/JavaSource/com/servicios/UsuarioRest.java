@@ -45,9 +45,9 @@ public class UsuarioRest {
     // /contextPath/servletPath/usuarios
     @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public void addUsuario(String nombre, String apellido, String clave, String perfil) throws TamboException {
+    public void addUsuario(String nombre, String apellido, String clave, String perfil, String nombreUsuario) throws TamboException {
         try {
-        	usuariosEJBBean.altaUsuario(nombre, apellido, clave, PerfilUsuario.valueOf(perfil.toUpperCase()));
+        	usuariosEJBBean.altaUsuario(nombre, apellido, clave, PerfilUsuario.valueOf(perfil.toUpperCase()), nombreUsuario);
 		} catch (Exception e) {
 			throw new TamboException(e.getMessage());
 		}
