@@ -1,7 +1,7 @@
 package com.enums;
 
 public enum PerfilUsuario {
-PERSONAL("Personal",1), ENCARGADO("Encargado",2);
+PERSONAL("Personal",0), ENCARGADO("Encargado",1);
 	
 	private String nombre;
 	private int numero;

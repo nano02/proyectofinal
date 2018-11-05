@@ -101,7 +101,7 @@ public class UsuarioEJBBean {
 			}			
 			else if(!validContrasenia){
 				throw new TamboException("La clave del usuario debe tener números y letras");
-			}			
+			}
 			else {
 				usuario.setNombre(nombre);
 				usuario.setApellido(apellido);
@@ -140,5 +140,7 @@ public class UsuarioEJBBean {
 		listaUsuarios.addAll(query.getResultList());
 		return listaUsuarios;
 	}
+
+	
 
 }

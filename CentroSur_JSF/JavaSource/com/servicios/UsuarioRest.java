@@ -47,7 +47,7 @@ public class UsuarioRest {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public void addUsuario(String nombre, String apellido, String clave, String perfil, String nombreUsuario) throws TamboException {
         try {
-        	usuariosEJBBean.altaUsuario(nombre, apellido, clave, PerfilUsuario.valueOf(perfil.toUpperCase()), nombreUsuario);
+        	usuariosEJBBean.altaUsuario(nombre, apellido, clave, PerfilUsuario.valueOf(perfil), nombreUsuario);
 		} catch (Exception e) {
 			throw new TamboException(e.getMessage());
 		}

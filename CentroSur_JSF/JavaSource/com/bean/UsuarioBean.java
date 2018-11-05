@@ -71,14 +71,13 @@ public class UsuarioBean {
         FacesMessage message = null;
         Usuario loginUser = usuariosEJBBean.buscarUsuario(nombreUsuario);
         
-        if(nombreUsuario!=null && loginUser!=null && clave!=null) {
+        if(loginUser!=null && clave!=null) {
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nombreUsuario);
             FacesContext.getCurrentInstance().addMessage(null, message);
-           //Validar perfil del usuario
             return "menuInicio";
         } else {
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al iniciar sesion", 
-            		loginUser!=null ? "Credenciales Inv·lidas" : "No existe un Usuario que con coincida con los datos ingresados");
+            		loginUser==null ? "Credenciales Inv·lidas" : "No existe un Usuario que con coincida con los datos ingresados");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "index";
         }
