@@ -32,16 +32,19 @@ public class UsuarioEJBBean {
 	}
 	
 	
-	public boolean isSoloTexto (String texto){
+	boolean isSoloTexto (String texto){
 		char[] chars = texto.toCharArray();
+
 		for (char c : chars) {
 			if(!Character.isLetter(c)) {
 				return false;
 			}
 		}
+
 		return true;
 	}
-	
+	//isLetterOrDigit
+
 	boolean isTextoNumeros (String texto){
 		char[] chars = texto.toCharArray();	
 		int n = 0;
@@ -62,7 +65,13 @@ public class UsuarioEJBBean {
 
 		return false;
 	}
+
 	
+	
+	
+	
+	
+		
 
 	public Usuario altaUsuario(String nombre, String apellido, String clave, PerfilUsuario perfil, String nombreUsuario) throws TamboException {
 		Usuario usuario  = new Usuario();

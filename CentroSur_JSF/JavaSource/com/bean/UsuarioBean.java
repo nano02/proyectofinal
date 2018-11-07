@@ -83,12 +83,15 @@ public class UsuarioBean {
  
     } 
 
+	
+	
+	
+	
 
 
-
-
-
-
+/*
+ * Getters and Setters
+ */
 
 
 	public UsuarioEJBBean getUsuariosEJBBean() {

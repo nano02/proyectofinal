@@ -3,7 +3,6 @@ package com.services;
 
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
 
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -16,9 +15,7 @@ import com.entities.Baja;
 import com.entities.Guachera;
 import com.entities.Madre;
 import com.entities.Padre;
-import com.entities.Peso;
 import com.entities.Ternera;
-import com.entities.Usuario;
 import com.enums.RazaTernera;
 import com.enums.TipoParto;
 import com.excepciones.TamboException;
@@ -40,22 +37,6 @@ public class TerneraBean {
 		// TODO Auto-generated constructor stub
 	}
 
-
-	/**
-	 * Funciones auxiliares. 
-	 */
-
-	boolean terneraExiste (String nroCrvnTernera) throws TamboException{
-		try {
-			Ternera ternera = em.find(Ternera.class, nroCrvnTernera);
-			em.flush();
-
-		} catch (PersistenceException e) {
-			throw new TamboException("La ternera no existe");
-		}
-		return true;
-
-	};
 	boolean tryParseLong (String value) {  
 		try {  
 			Long.parseLong(value);  
@@ -73,8 +54,53 @@ public class TerneraBean {
 			return true;
 		}
 
-	}	
+	}
+	public boolean isSoloTexto (String texto){
+		char[] chars = texto.toCharArray();
 
+		for (char c : chars) {
+			if(!Character.isLetter(c)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	//isLetterOrDigit
+
+	boolean isTextoNumeros (String texto){
+		char[] chars = texto.toCharArray();	
+		int n = 0;
+		int l = 0;
+
+		for (char c : chars) {
+			if(Character.isLetterOrDigit(c)) {
+				if (Character.isLetter(c)){
+					l++;
+				}
+				if (Character.isDigit(c)){
+					n++;
+				}
+				if (l>0 && n>0){
+					return true;}
+			}
+		}
+
+		return false;
+	}
+
+
+	boolean terneraExiste (String nroCrvnTernera) throws TamboException{
+		try {
+			Ternera ternera = em.find(Ternera.class, nroCrvnTernera);//solo se hace find pk cambiar por query
+			em.flush();
+
+		} catch (PersistenceException e) {
+			throw new TamboException("La ternera no existe");
+		}
+		return true;
+
+	};
 
 
 	public void altaTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
@@ -183,7 +209,7 @@ public class TerneraBean {
 
 			Ternera ternera = em.find(Ternera.class, idTernera);
 
-
+			
 			if(ternera.getNroCaravana().isEmpty()){
 				throw new TamboException("El número de caravana no puede estar vacío");
 			}

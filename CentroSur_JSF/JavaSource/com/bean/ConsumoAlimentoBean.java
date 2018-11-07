@@ -39,9 +39,9 @@ public class ConsumoAlimentoBean {
 	}
 
 	
-	
-	
-	
+	/*
+	 * Getters and Setters
+	 */
 	
 	
 	
