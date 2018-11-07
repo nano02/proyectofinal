@@ -1,9 +1,7 @@
 package com.services;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.LinkedList;
-import java.util.List;
-
 import javax.ejb.Remote;
 
 import com.excepciones.TamboException;

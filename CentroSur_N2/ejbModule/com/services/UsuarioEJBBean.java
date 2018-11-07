@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 
+import com.entities.Ternera;
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
@@ -30,8 +31,8 @@ public class UsuarioEJBBean {
 	public UsuarioEJBBean() {
 		// TODO Auto-generated constructor stub
 	}
-	
-	
+
+
 	boolean isSoloTexto (String texto){
 		char[] chars = texto.toCharArray();
 
@@ -66,12 +67,12 @@ public class UsuarioEJBBean {
 		return false;
 	}
 
-	
-	
-	
-	
-	
-		
+
+
+
+
+
+
 
 	public Usuario altaUsuario(String nombre, String apellido, String clave, PerfilUsuario perfil, String nombreUsuario) throws TamboException {
 		Usuario usuario  = new Usuario();
@@ -101,7 +102,7 @@ public class UsuarioEJBBean {
 			else{
 				nombreUsuario = nombre + "." + apellido;
 			}
-			
+
 			if(usuario.getClave().isEmpty()){
 				throw new TamboException("La clave del usuario no puede estar vacía");
 			}
@@ -131,18 +132,53 @@ public class UsuarioEJBBean {
 		em.remove(em.find(Usuario.class, idUsuario));
 		em.flush();
 	}
+
+
 	public Usuario buscarUsuarioLogin(String nombreUsuario, String clave)throws TamboException {
-		Usuario user = em.find(Usuario.class, nombreUsuario); //falta el parametro clave
-		return user;
+		try {
+			TypedQuery<Usuario> query =  em.createQuery("SELECT u FROM Usuario u WHERE u.usuario LIKE :nombreUsuario AND u.clave :contraseña", Usuario.class).setParameter("nombreUsuario", nombreUsuario);
+			return query.getResultList().get(0);
+		} catch (PersistenceException e) {
+			throw new TamboException("No se pudo encontrar el usuario");
+		}
+		
 	}
+
 	public Usuario buscarUsuario(String nombreUsuario) throws TamboException {
-		Usuario user = em.find(Usuario.class, nombreUsuario);
-		return user;
+		try {	
+			if(nombreUsuario == null ){
+				throw new TamboException("Debe ingresar un nombre de usuario válido");
+			}
+			else if(nombreUsuario.isEmpty()){
+				throw new TamboException("El nombre de usuario no puede ser vacío");
+			}
+			TypedQuery<Usuario> query =  em.createQuery("SELECT u FROM Usuario u WHERE usuario LIKE: nombreUsuario", Usuario.class)
+					.setParameter("nombreUsuario", nombreUsuario);
+			return query.getResultList().get(0);
+		} catch (PersistenceException e) {
+			throw new TamboException("No se pudo buscar el usuario por nombre de usuario");
+		}
+
 	}
+
+
 	public Usuario buscarApellidoUsuario(String apellidoUsuario) throws TamboException {
-		Usuario user = em.find(Usuario.class, apellidoUsuario);
-		return user;
+		try {	
+			if(apellidoUsuario == null ){
+				throw new TamboException("Debe ingresar un apellido válido");
+			}
+			else if(apellidoUsuario.isEmpty()){
+				throw new TamboException("El apellido no puede ser vacío");
+			}
+			TypedQuery<Usuario> query =  em.createQuery("SELECT u FROM Usuario u WHERE apellido LIKE: apellido", Usuario.class)
+					.setParameter("apellido", apellidoUsuario);
+			return query.getResultList().get(0);
+		} catch (PersistenceException e) {
+			throw new TamboException("No se pudo buscar el usuario por apellido");
+		}
+
 	}
+
 	public LinkedList<Usuario> obtenerUsuarios(){
 		LinkedList<Usuario> listaUsuarios = new LinkedList<>();
 		TypedQuery<Usuario> query = em.createQuery("SELECT u FROM Usuario u", Usuario.class);
@@ -150,6 +186,6 @@ public class UsuarioEJBBean {
 		return listaUsuarios;
 	}
 
-	
+
 
 }

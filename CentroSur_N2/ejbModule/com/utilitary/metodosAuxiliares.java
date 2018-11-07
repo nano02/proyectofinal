@@ -7,7 +7,7 @@ public class metodosAuxiliares {
 	
 	
 	
-	boolean tryParseLong (String value) {  
+	public boolean tryParseLong (String value) {  
 		try {  
 			Long.parseLong(value);  
 			return true;  
@@ -16,7 +16,7 @@ public class metodosAuxiliares {
 		}  
 	}
 
-	boolean crvnIsValid (Long crvn){
+	public boolean crvnIsValid (Long crvn){
 		String crvnAux = crvn.toString();
 		if (crvnAux.length()!=7){
 			return false;
@@ -26,7 +26,8 @@ public class metodosAuxiliares {
 		}
 
 	}
-	boolean isSoloTexto (String texto){
+	
+	public boolean isSoloTexto (String texto){
 		char[] chars = texto.toCharArray();
 
 		for (char c : chars) {
@@ -39,7 +40,7 @@ public class metodosAuxiliares {
 	}
 	//isLetterOrDigit
 
-	boolean isTextoNumeros (String texto){
+	public boolean isTextoNumeros (String texto){
 		char[] chars = texto.toCharArray();	
 		int n = 0;
 		int l = 0;

@@ -90,15 +90,15 @@ public class TerneraBean {
 	}
 
 
-	boolean terneraExiste (String nroCrvnTernera) throws TamboException{
-		try {
-			Ternera ternera = em.find(Ternera.class, nroCrvnTernera);//solo se hace find pk cambiar por query
-			em.flush();
+	public boolean terneraExiste (String nroCaravanaTernera) throws TamboException{
+		try{
+			TypedQuery<Ternera> query =  em.createQuery("SELECT t FROM Terneras WHERE nro_caravana LIKE :nroCaravana", Ternera.class)
+					.setParameter("nroCaravana", nroCaravanaTernera);
+			return query.getResultList().get(0) != null;
 
 		} catch (PersistenceException e) {
 			throw new TamboException("La ternera no existe");
 		}
-		return true;
 
 	};
 
@@ -151,7 +151,7 @@ public class TerneraBean {
 			}
 
 			else if(ternera.getFechaNac() == null){
-				throw new TamboException("Debe seleccionar una fecha de nacimiento v�lida (DD/MM/AA)");
+				throw new TamboException("Debe seleccionar una fecha de nacimiento válida (DD/MM/AA)");
 			}
 			else {
 				ternera.setFechaNac(fechaNac);
@@ -217,13 +217,13 @@ public class TerneraBean {
 				throw new TamboException("El número de caravana debe tener 10 dígitos");
 			}
 			else if(!tryParseLong(ternera.getNroCaravana())){
-				throw new TamboException("El número de caravana debe contener únicamente n�meros");
+				throw new TamboException("El número de caravana debe contener únicamente números");
 			}
 			else if(Long.parseLong(ternera.getNroCaravana())<= 0){
 				throw new TamboException("El número de caravana debe ser mayor a 0");
 			}
 			else if(!crvnIsValid(Long.parseLong(ternera.getNroCaravana()))){
-				throw new TamboException("El número de caravana debe seguir el formato (000 seguido de 7 d�gitos)");
+				throw new TamboException("El número de caravana debe seguir el formato (000 seguido de 7 dígitos)");
 			}
 
 			if(ternera.getFechaNac() == null){
@@ -325,7 +325,7 @@ public class TerneraBean {
 
 	public Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException {
 		try{			
-			TypedQuery<Ternera> query =  em.createQuery("SELECT t FROM Terneras t WHERE t.id_ternera LIKE :idternera AND t.baja :0", Ternera.class).setParameter("idTernera", idTernera);
+			TypedQuery<Ternera> query =  em.createQuery("SELECT t FROM Terneras t WHERE t.id_ternera LIKE :idternera AND t.baja LIKE :0", Ternera.class).setParameter("idTernera", idTernera);
 			return query.getResultList().get(0);
 		} catch (PersistenceException e){
 			throw new TamboException("No se pudo buscar la ternera por ID");
@@ -369,8 +369,7 @@ public class TerneraBean {
 					.setParameter("crvnTernera", crvnTernera);
 			return query.getResultList().get(0);
 		} catch (PersistenceException e) {
-
-			throw new TamboException("No se pudo buscar la ternera por caravana");
+			throw new TamboException("No se pudo obtener la ternera");
 		}
 
 	}
