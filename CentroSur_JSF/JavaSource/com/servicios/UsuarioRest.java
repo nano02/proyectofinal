@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
-import com.services.UsuarioEJBBean;
+import com.services.UsuarioBean;
 import com.sun.mail.smtp.DigestMD5;
 
 @Stateless
@@ -24,7 +24,7 @@ import com.sun.mail.smtp.DigestMD5;
 public class UsuarioRest {
 
 	@EJB
-	private UsuarioEJBBean usuariosEJBBean;
+	private UsuarioBean usuariosEJBBean;
 	
     // URI:
     // /contextPath/servletPath/usuarios
