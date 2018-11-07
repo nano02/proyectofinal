@@ -58,8 +58,6 @@ public class TamboBean implements TamboBeanRemote {
 
 	};
 
-
-
 	boolean tryParseLong (String value) {  
 		try {  
 			Long.parseLong(value);  
@@ -78,8 +76,6 @@ public class TamboBean implements TamboBeanRemote {
 		}
 
 	}
-
-
 	public boolean isSoloTexto (String texto){
 		char[] chars = texto.toCharArray();
 
@@ -126,7 +122,7 @@ public class TamboBean implements TamboBeanRemote {
 	/**
 	 * ALIMENTO
 	 */
-	public void crearAlimento(int idAlimento, String nombre, Long cantidad, Long costoUnitario,  int unidad) throws TamboException {
+	public void crearAlimento(String nombre, Long cantidad, Long costoUnitario,  int unidad) throws TamboException {
 		try {
 			Alimento alimento = new Alimento();
 			Unidad uni = new Unidad();
@@ -182,7 +178,7 @@ public class TamboBean implements TamboBeanRemote {
 	public Madre buscarIdMadre(Long idMadre) throws TamboException {
 
 		try {
-			if(idMadre == null){
+			if(idMadre == 0){
 				throw new TamboException("El número de identificación de la madre solamente puede tener números");
 			}
 			if(idMadre.toString().length()>4){
@@ -203,7 +199,7 @@ public class TamboBean implements TamboBeanRemote {
 	@Override
 	public Padre buscarIdPadre(Long idPadre) throws TamboException {
 		try{
-			if(idPadre == null){
+			if(idPadre == 0){
 				throw new TamboException("El número de identificaciún del padre solamente puede tener números");
 			}
 			if(idPadre.toString().length()>4){
@@ -223,8 +219,7 @@ public class TamboBean implements TamboBeanRemote {
 	 */
 
 	@Override	
-
-	public void altaPeso(int idPeso, int idTernera, long tipoRegistro, Date fecha, double peso) throws TamboException{
+	public void altaPeso(Long idTernera, Long tipoRegistro, Date fecha, double peso) throws TamboException{
 		try{
 			Peso p = new Peso ();
 			Ternera ternera = new Ternera ();
@@ -274,7 +269,7 @@ public class TamboBean implements TamboBeanRemote {
 		}
 	}
 
-	public void editarPeso(int idPeso, int idTernera, long tipoRegistro, Date fecha, double peso) throws TamboException{
+	public void editarPeso(Long idPeso, Long idTernera, Long tipoRegistro, Date fecha, double peso) throws TamboException{
 		try{
 
 			Peso p = em.find(Peso.class, idPeso);
@@ -336,11 +331,11 @@ public class TamboBean implements TamboBeanRemote {
 		try {
 
 			if(ternera.getIdTernera()== 0){
-				throw new TamboException("El número de identificación únicamente puede contener n�meros");
+				throw new TamboException("El número de identificación únicamente puede contener números");
 			}
 
 			else if(idTerneraS.length()>4){
-				throw new TamboException("El número de identificación debe tener un m�ximo de 4 d�gitos");
+				throw new TamboException("El número de identificación debe tener un m�ximo de 4 dígitos");
 			}
 
 			else if(ternera.getIdTernera() <= 0){
@@ -357,6 +352,7 @@ public class TamboBean implements TamboBeanRemote {
 
 	}
 
+	
 
 
 }

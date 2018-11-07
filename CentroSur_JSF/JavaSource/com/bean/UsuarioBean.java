@@ -76,8 +76,7 @@ public class UsuarioBean {
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "menuInicio";
         } else {
-            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al iniciar sesion", 
-            		loginUser==null ? "Credenciales Inv·lidas" : "No existe un Usuario que con coincida con los datos ingresados");
+            message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Error al iniciar sesion", " ");
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "index";
         }

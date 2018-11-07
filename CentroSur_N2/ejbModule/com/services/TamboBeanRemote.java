@@ -17,8 +17,7 @@ public interface TamboBeanRemote {
 	Madre buscarIdMadre(Long idMadre)throws TamboException;
 			
 	//Padre
-	Padre buscarIdPadre(Long idPadre)throws TamboException;
-	
+	Padre buscarIdPadre(Long idPadre) throws TamboException;
 
 
 	//Guachera
@@ -26,10 +25,12 @@ public interface TamboBeanRemote {
 	
 
 	//Consumo
-	LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId)throws TamboException;
+	LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId) throws TamboException;
+	
+	
+	void altaPeso(Long idTernera, Long tipoRegistro, Date fecha, double peso) throws TamboException;
 
 
-	void altaPeso(int idPeso, int idTernera, long tipoRegistro, Date fecha, double peso) throws TamboException;
 
 	//Cuadro Clinico
 	//LinkedList<CuadroClinico> diaEvento() throws TamboException;

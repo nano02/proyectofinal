@@ -18,9 +18,9 @@ public class Consumo implements Serializable {
 
 	@Id
 	@Column(name="ID_CONSUMO")
-	private long idConsumo;
+	private Long idConsumo;
 
-	private BigDecimal cantidad;
+	private Long cantidad;
 
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
@@ -46,12 +46,21 @@ public class Consumo implements Serializable {
 		this.idConsumo = idConsumo;
 	}
 
-	public BigDecimal getCantidad() {
-		return this.cantidad;
+
+	public Long getCantidad() {
+		return cantidad;
 	}
 
-	public void setCantidad(BigDecimal cantidad) {
+	public void setCantidad(Long cantidad) {
 		this.cantidad = cantidad;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public void setIdConsumo(Long idConsumo) {
+		this.idConsumo = idConsumo;
 	}
 
 	public Date getFecha() {
