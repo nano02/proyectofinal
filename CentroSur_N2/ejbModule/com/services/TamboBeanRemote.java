@@ -25,7 +25,7 @@ public interface TamboBeanRemote {
 	
 
 	//Consumo
-	LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId) throws TamboException;
+	LinkedList<Consumo> consumoPorTernera(Long terneraPorId) throws TamboException;
 	
 	
 	void altaPeso(Long idTernera, Long tipoRegistro, Date fecha, double peso) throws TamboException;

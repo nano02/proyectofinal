@@ -28,7 +28,7 @@ import com.excepciones.TamboException;
  */
 @Stateless
 @LocalBean
-public class TerneraEJBBean {
+public class TerneraBean {
 
 	@PersistenceContext
 	private EntityManager em;
@@ -36,7 +36,7 @@ public class TerneraEJBBean {
 	/**
 	 * Default constructor. 
 	 */
-	public TerneraEJBBean() {
+	public TerneraBean() {
 		// TODO Auto-generated constructor stub
 	}
 

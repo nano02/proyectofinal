@@ -324,7 +324,7 @@ public class TamboBean implements TamboBeanRemote {
 
 	//CONSUMO
 	@Override
-	public LinkedList<Consumo> consumoPorTernera(Ternera terneraPorId) throws TamboException {
+	public LinkedList<Consumo> consumoPorTernera(Long terneraPorId) throws TamboException {
 
 		Ternera ternera = new Ternera();
 		String idTerneraS = Long.toString(ternera.getIdTernera());

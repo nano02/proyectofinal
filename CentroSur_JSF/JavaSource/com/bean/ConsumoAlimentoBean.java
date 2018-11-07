@@ -1,71 +1,82 @@
 package com.bean;
 
-import java.util.Date;
+
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-
-import com.entities.Alimento;
+import com.entities.Consumo;
 import com.entities.Ternera;
+import com.excepciones.TamboException;
 import com.services.TamboBean;
+import com.services.TerneraBean;
 
-@ManagedBean(name="alimento")
+@ManagedBean(name="consumoAlimento")
 @SessionScoped
 public class ConsumoAlimentoBean {
 
 	
 	
 	@EJB
-	private TamboBean consumoAlimento;
-	
-	
-	private Long cantidad;
-	private Date fecha;
-	private Alimento alimento;
-	private Ternera ternera;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	public TamboBean getConsumoAlimento() {
-		return consumoAlimento;
+	private TamboBean consumoAlimentoEJBBean;
+	private TerneraBean terneraEJBBean;
+
+	private Long idTernera;
+
+	private List<Consumo> consumosTerneras; 
+		
+	public String consumoAlimentos () throws TamboException{
+		try {
+			Ternera t = terneraEJBBean.buscarTerneraPorIdTodas(idTernera);
+			consumosTerneras = consumoAlimentoEJBBean.consumoPorTernera(idTernera);
+			return "consumoAlimentos";
+		} catch (Exception e) {
+			return null;
+		}
+		
 	}
-	public void setConsumoAlimento(TamboBean consumoAlimento) {
-		this.consumoAlimento = consumoAlimento;
+
+	
+	
+	
+	
+	
+	
+	
+	public TamboBean getConsumoAlimentoEJBBean() {
+		return consumoAlimentoEJBBean;
 	}
-	public Long getCantidad() {
-		return cantidad;
+
+	public void setConsumoAlimentoEJBBean(TamboBean consumoAlimentoEJBBean) {
+		this.consumoAlimentoEJBBean = consumoAlimentoEJBBean;
 	}
-	public void setCantidad(Long cantidad) {
-		this.cantidad = cantidad;
+
+	public TerneraBean getTerneraEJBBean() {
+		return terneraEJBBean;
 	}
-	public Date getFecha() {
-		return fecha;
+
+	public void setTerneraEJBBean(TerneraBean terneraEJBBean) {
+		this.terneraEJBBean = terneraEJBBean;
 	}
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+
+	public Long getIdTernera() {
+		return idTernera;
 	}
-	public Alimento getAlimento() {
-		return alimento;
+
+	public void setIdTernera(Long idTernera) {
+		this.idTernera = idTernera;
 	}
-	public void setAlimento(Alimento alimento) {
-		this.alimento = alimento;
+
+	public List<Consumo> getConsumosTerneras() {
+		return consumosTerneras;
 	}
-	public Ternera getTernera() {
-		return ternera;
+
+	public void setConsumosTerneras(List<Consumo> consumosTerneras) {
+		this.consumosTerneras = consumosTerneras;
 	}
-	public void setTernera(Ternera ternera) {
-		this.ternera = ternera;
-	}
+	
 	
 	
 }
