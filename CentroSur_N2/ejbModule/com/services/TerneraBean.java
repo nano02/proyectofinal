@@ -1,10 +1,7 @@
 package com.services;
 
-
 import java.util.Date;
 import java.util.LinkedList;
-
-import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -21,21 +18,22 @@ import com.enums.TipoParto;
 import com.excepciones.TamboException;
 
 /**
- * Session Bean implementation class TerneraEJBBean
+ * Session Bean implementation class TerneraBean2
  */
 @Stateless
-@LocalBean
-public class TerneraBean {
+public class TerneraBean implements TerneraBeanRemote {
 
-	@PersistenceContext
+    /**
+     * Default constructor. 
+     */
+    public TerneraBean() {
+        // TODO Auto-generated constructor stub
+    }
+    
+    @PersistenceContext
 	private EntityManager em;
 
-	/**
-	 * Default constructor. 
-	 */
-	public TerneraBean() {
-		// TODO Auto-generated constructor stub
-	}
+
 
 	boolean tryParseLong (String value) {  
 		try {  
@@ -335,7 +333,7 @@ public class TerneraBean {
 
 
 	public Ternera buscarTerneraPorIdTodas(Long idTernera) throws TamboException {
-		//Casteamos a String el idTernera para calcular cantidad de d�gitos
+		//Casteamos a String el idTernera para calcular cantidad de dígitos
 		Ternera ternera = new Ternera();
 		String idTerneraS = Long.toString(ternera.getIdTernera());
 
@@ -387,5 +385,5 @@ public class TerneraBean {
 
 	}
 
-
 }
+

@@ -3,8 +3,8 @@
 	<name>CentroSurEAR</name>
 	<comment></comment>
 	<projects>
-		<project>CentroSur_N2</project>
 		<project>CentroSur_JSF</project>
+		<project>CentroSur_N2</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

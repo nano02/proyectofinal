@@ -11,7 +11,7 @@ import javax.faces.context.FacesContext;
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
-import com.services.UsuarioEJBBean;
+import com.services.*;
 
 
 @ManagedBean(name="usuario")
@@ -20,7 +20,7 @@ public class UsuarioBean {
 
 
 	@EJB
-	private UsuarioEJBBean usuariosEJBBean;
+	private UsuarioBean usuariosEJBBean;
 
 	private Long id;
 	private String nombre;
@@ -32,34 +32,22 @@ public class UsuarioBean {
 
 
 
-	public String crearUsuario() {
-		try {
-			usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil, nombreUsuario);
-			return "mostrarUsuario";
-		} catch (TamboException e) {
-			return null;
-		}
+	public String crearUsuario() throws TamboException {
+		usuariosEJBBean.crearUsuario();
+		return "mostrarUsuario";
 
 	}
 
 
-	public String eliminarUsuruario() {
-		try {
-			usuariosEJBBean.eliminarUsuario(id);
-			return "eliminarUsuario";
-		} catch (TamboException e) {
-			return null;	
-		}
+	public String eliminarUsuario() throws TamboException {
+		usuariosEJBBean.eliminarUsuario();
+		return "eliminarUsuario";
 
 	}
 
-	public String buscarUsuario() {
-		try {
-			usuariosEJBBean.buscarUsuario(nombre);
-			return "buscarUsuario";
-		} catch (TamboException e) {
-			return null;
-		}
+	public String buscarUsuario() throws TamboException {
+		usuariosEJBBean.buscarUsuario();
+		return "buscarUsuario";
 	}
 
 
@@ -69,7 +57,7 @@ public class UsuarioBean {
 	
 	public String login() throws TamboException {
         FacesMessage message = null;
-        Usuario loginUser = usuariosEJBBean.buscarUsuario(nombreUsuario);
+        String loginUser = usuariosEJBBean.buscarUsuario();
         
         if(loginUser!=null && clave!=null) {
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nombreUsuario);
@@ -94,13 +82,7 @@ public class UsuarioBean {
  */
 
 
-	public UsuarioEJBBean getUsuariosEJBBean() {
-		return usuariosEJBBean;
-	}
 
-	public void setUsuariosEJBBean(UsuarioEJBBean usuariosEJBBean) {
-		this.usuariosEJBBean = usuariosEJBBean;
-	}
 
 	public Long getId() {
 		return id;
