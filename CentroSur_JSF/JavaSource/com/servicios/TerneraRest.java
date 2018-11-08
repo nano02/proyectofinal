@@ -19,7 +19,7 @@ import com.enums.PerfilUsuario;
 import com.enums.RazaTernera;
 import com.enums.TipoParto;
 import com.excepciones.TamboException;
-import com.services.TerneraBean;
+import com.services.TerneraBeanRemote;
 
 @Stateless
 @Path("/terneras")
@@ -28,7 +28,7 @@ public class TerneraRest {
 
 	
 	@EJB
-	private TerneraBean terneraEJBBean;
+	private TerneraBeanRemote terneraEJBBean;
 	
 	
 	@GET

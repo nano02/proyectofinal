@@ -21,6 +21,7 @@ public class ConsumoAlimentoBean {
 	
 	@EJB
 	private TamboBean consumoAlimentoEJBBean;
+	@EJB
 	private TerneraBean terneraEJBBean;
 
 	private Long idTernera;

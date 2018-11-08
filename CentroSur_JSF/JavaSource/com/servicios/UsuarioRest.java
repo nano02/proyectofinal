@@ -15,8 +15,8 @@ import javax.ws.rs.core.MediaType;
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
-import com.services.UsuarioBean;
-import com.sun.mail.smtp.DigestMD5;
+import com.services.UsuarioBeanRemote;
+import org.apache.commons.codec.digest.DigestUtils;
 
 @Stateless
 @Path("/usuarios")
@@ -24,7 +24,7 @@ import com.sun.mail.smtp.DigestMD5;
 public class UsuarioRest {
 
 	@EJB
-	private UsuarioBean usuariosEJBBean;
+	private UsuarioBeanRemote usuariosEJBBean;
 	
     // URI:
     // /contextPath/servletPath/usuarios
@@ -48,8 +48,7 @@ public class UsuarioRest {
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
     public void addUsuario(String nombre, String apellido, String clave, String perfil, String nombreUsuario) throws TamboException {
         try {
-        	
-        	usuariosEJBBean.altaUsuario(nombre, apellido, clave, PerfilUsuario.valueOf(perfil), nombreUsuario);
+        	usuariosEJBBean.altaUsuario(nombre, apellido, DigestUtils.md5Hex(clave), PerfilUsuario.valueOf(perfil), nombreUsuario);
 		} catch (Exception e) {
 			throw new TamboException(e.getMessage());
 		}
