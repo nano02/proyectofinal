@@ -10,8 +10,8 @@ import javax.faces.bean.SessionScoped;
 import com.entities.Consumo;
 import com.entities.Ternera;
 import com.excepciones.TamboException;
-import com.services.TamboBean;
-import com.services.TerneraBean;
+import com.services.TamboBeanRemote;
+import com.services.TerneraBeanRemote;
 
 @ManagedBean(name="consumoAlimento")
 @SessionScoped
@@ -20,9 +20,9 @@ public class ConsumoAlimentoBean {
 	
 	
 	@EJB
-	private TamboBean consumoAlimentoEJBBean;
+	private TamboBeanRemote consumoAlimentoEJBBean;
 	@EJB
-	private TerneraBean terneraEJBBean;
+	private TerneraBeanRemote terneraEJBBean;
 
 	private Long idTernera;
 
@@ -46,21 +46,29 @@ public class ConsumoAlimentoBean {
 	
 	
 	
-	public TamboBean getConsumoAlimentoEJBBean() {
+	
+
+
+
+	public TamboBeanRemote getConsumoAlimentoEJBBean() {
 		return consumoAlimentoEJBBean;
 	}
 
-	public void setConsumoAlimentoEJBBean(TamboBean consumoAlimentoEJBBean) {
+
+	public void setConsumoAlimentoEJBBean(TamboBeanRemote consumoAlimentoEJBBean) {
 		this.consumoAlimentoEJBBean = consumoAlimentoEJBBean;
 	}
 
-	public TerneraBean getTerneraEJBBean() {
+
+	public TerneraBeanRemote getTerneraEJBBean() {
 		return terneraEJBBean;
 	}
 
-	public void setTerneraEJBBean(TerneraBean terneraEJBBean) {
+
+	public void setTerneraEJBBean(TerneraBeanRemote terneraEJBBean) {
 		this.terneraEJBBean = terneraEJBBean;
 	}
+
 
 	public Long getIdTernera() {
 		return idTernera;

@@ -11,7 +11,8 @@ import javax.faces.context.FacesContext;
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
-import com.services.*;
+import com.services.UsuarioBeanRemote;
+
 
 
 @ManagedBean(name="usuario")
@@ -20,7 +21,7 @@ public class UsuarioBean {
 
 
 	@EJB
-	private UsuarioBean usuariosEJBBean;
+	private UsuarioBeanRemote usuariosEJBBean;
 
 	private Long id;
 	private String nombre;
@@ -33,20 +34,20 @@ public class UsuarioBean {
 
 
 	public String crearUsuario() throws TamboException {
-		usuariosEJBBean.crearUsuario();
+		usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil, nombreUsuario);
 		return "mostrarUsuario";
 
 	}
 
 
-	public String eliminarUsuario() throws TamboException {
-		usuariosEJBBean.eliminarUsuario();
+	public String eliminarUsuario(Long idUsuario) throws TamboException {
+		usuariosEJBBean.eliminarUsuario(idUsuario);
 		return "eliminarUsuario";
 
 	}
 
-	public String buscarUsuario() throws TamboException {
-		usuariosEJBBean.buscarUsuario();
+	public String buscarUsuario(String nombreUsuario) throws TamboException {
+		usuariosEJBBean.buscarUsuario(nombreUsuario);
 		return "buscarUsuario";
 	}
 
@@ -57,9 +58,8 @@ public class UsuarioBean {
 	
 	public String login() throws TamboException {
         FacesMessage message = null;
-        String loginUser = usuariosEJBBean.buscarUsuario();
         
-        if(loginUser!=null && clave!=null) {
+        if(nombreUsuario!=null && clave!=null) {
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenido", nombreUsuario);
             FacesContext.getCurrentInstance().addMessage(null, message);
             return "menuInicio";

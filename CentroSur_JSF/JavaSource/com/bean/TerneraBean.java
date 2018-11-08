@@ -14,6 +14,7 @@ import com.entities.Ternera;
 import com.enums.RazaTernera;
 import com.enums.TipoParto;
 import com.excepciones.TamboException;
+import com.services.TerneraBeanRemote;
 
 @ManagedBean(name="ternera")
 @SessionScoped
@@ -21,7 +22,7 @@ public class TerneraBean {
 
 	
 	@EJB
-	private TerneraBean terneraEJBBean;
+	private TerneraBeanRemote terneraEJBBean;
 	
 	
 	private Long idTernera;
@@ -37,7 +38,7 @@ public class TerneraBean {
 	
 	
 	public String altaTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, RazaTernera raza, TipoParto parto, Double pesoNac, Date fechaNacimiento ) throws TamboException {
-		terneraEJBBean.altaTernera(idTernera, nroCaravana, idGuachera, idMadre, idPadre, raza, parto, pesoNac, fechaNacimiento);
+		terneraEJBBean.altaTernera(idTernera, nroCaravana, idGuachera, idMadre, idPadre, fechaNacimiento, idPadre, raza, parto, pesoNac);
 		return "mostrar";
 	}
 	
@@ -48,22 +49,22 @@ public class TerneraBean {
 	}
 	
 	public String buscarTerneraCrvn(String nroCaravana) throws TamboException {
-		terneraEJBBean.buscarTerneraCrvn(nroCaravana);
+		terneraEJBBean.buscarTerneraPorCaravana(nroCaravana);
 		return "buscarCaravana";
 	}
 	
 	public String buscarTerneraId(Long idTernera) throws TamboException {
-		terneraEJBBean.buscarTerneraId(idTernera);
+		terneraEJBBean.buscarTerneraPorIdTodas(idTernera);
 		return "buscarTodasId";
 	}
 	
 	public String buscarTerneraIdViva(Long idTernera) throws TamboException {
-		terneraEJBBean.buscarTerneraIdViva(idTernera);
+		terneraEJBBean.buscarTerneraPorIdViva(idTernera);
 		return "buscarTodasIdVIiva";
 	}
 	
 	public List<Ternera> buscarTodasTerneras() throws TamboException{
-		return terneraEJBBean.buscarTodasTerneras();
+		return terneraEJBBean.buscarTodasTernera();
 	}
 	
 	

@@ -18,6 +18,7 @@ public interface TerneraBeanRemote {
 	void muerteTernera(Long idTernera, Date fechaMuerte, String causaMuerte, Date fechaBaja, String motivoBaja) throws TamboException;
 	void eliminarTernera(Long  idTernera) throws TamboException;
 	Ternera buscarTerneraPorIdTodas(Long idTernera) throws TamboException;
+	Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException ;
 	Ternera buscarTerneraPorCaravana(String crvnTernera) throws TamboException;
 	LinkedList<Ternera> buscarTodasTernera() throws TamboException;
 	
