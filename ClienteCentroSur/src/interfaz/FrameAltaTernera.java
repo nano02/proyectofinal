@@ -126,7 +126,7 @@ public class FrameAltaTernera{
 		FrameAltaTernero.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		Long id = null;
-		TamboBeanRemote tamboBean;
+		/*TamboBeanRemote tamboBean;
 		try {
 			tamboBean = EJBLocator.getInstance().lookup(TamboBeanRemote.class);
 			id = tamboBean.buscarMaxId();
@@ -137,7 +137,7 @@ public class FrameAltaTernera{
 		}catch (TamboException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage(), "Alta de ternera",
 					JOptionPane.INFORMATION_MESSAGE);
-		}
+		}*/
 
 		Date hoy = new Date(System.currentTimeMillis());
 		GridBagLayout gridBagLayout = new GridBagLayout();
