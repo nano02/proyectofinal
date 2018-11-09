@@ -8,6 +8,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.codec.digest.DigestUtils;
+
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
 import com.excepciones.TamboException;
@@ -34,22 +36,25 @@ public class UsuarioBean {
 
 
 	public String crearUsuario() throws TamboException {
-		usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil, nombreUsuario);
-		return "mostrarUsuario";
-
+			usuariosEJBBean.altaUsuario(nombre, apellido, clave, perfil, nombreUsuario);
+			return "mostrarUsuario";	
 	}
 
 
 	public String eliminarUsuario(Long idUsuario) throws TamboException {
 		usuariosEJBBean.eliminarUsuario(idUsuario);
 		return "eliminarUsuario";
-
 	}
 
 	public String buscarUsuario(String nombreUsuario) throws TamboException {
 		usuariosEJBBean.buscarUsuario(nombreUsuario);
 		return "buscarUsuario";
 	}
+	
+	public void modificarUsuario(String nombreUsuario, String clave) throws TamboException{
+		usuariosEJBBean.modificarUsuario(nombreUsuario, DigestUtils.md5Hex(clave));
+	}
+	
 
 
 	public LinkedList<Usuario> obtenerUsuarios() throws TamboException{

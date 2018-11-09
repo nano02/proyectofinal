@@ -13,6 +13,7 @@ public interface UsuarioBeanRemote {
 
 	void altaUsuario(String nombre, String apellido, String clave, PerfilUsuario perfil, String nombreUsuario) throws TamboException;
 	void eliminarUsuario(Long  idUsuario) throws TamboException;
+	void modificarUsuario(String nombreUsuario, String clave)throws TamboException;
 	Usuario buscarUsuarioLogin(String nombreUsuario, String clave)throws TamboException;
 	Usuario buscarUsuario(String nombreUsuario) throws TamboException;
 	Usuario buscarApellidoUsuario(String apellidoUsuario) throws TamboException;

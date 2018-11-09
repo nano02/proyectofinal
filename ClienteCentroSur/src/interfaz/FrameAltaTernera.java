@@ -34,6 +34,7 @@ import com.models.Padre;
 import com.models.Peso;
 import com.models.Ternera;
 import com.services.TamboBeanRemote;
+import com.services.TerneraBeanRemote;
 import com.toedter.calendar.JDateChooser;
 import com.DAOs.DAOGuachera;
 import com.DAOs.DAOMadre;
@@ -75,10 +76,10 @@ public class FrameAltaTernera{
 	private JTextField tbNroCaravana;
 	private JLabel lbIdTernera;
 
-	@EJB DAOTernera daoTernera;
-	@EJB DAOPadre daoPadre;
-	@EJB DAOMadre daoMadre;
-	@EJB DAOGuachera daoGuachera;
+	@EJB 
+	TerneraBeanRemote daoTernera;
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -423,7 +424,7 @@ public class FrameAltaTernera{
 				Boolean isVacioMadre = false;
 
 				if (tbIdMadre.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null, "El id de la madre no puede ser vacío", "Alta de ternera",
+					JOptionPane.showMessageDialog(null, "El id de la madre no puede ser vacï¿½o", "Alta de ternera",
 							JOptionPane.INFORMATION_MESSAGE); 
 					isVacioMadre = true;
 				}
@@ -458,7 +459,7 @@ public class FrameAltaTernera{
 				Boolean isVacioPadre = false;
 
 				if (tbIdPadre.getText().isEmpty()){
-					JOptionPane.showMessageDialog(null, "El id del padre no puede ser vacío", "Alta de ternera",
+					JOptionPane.showMessageDialog(null, "El id del padre no puede ser vacï¿½o", "Alta de ternera",
 							JOptionPane.INFORMATION_MESSAGE); 
 					isVacioPadre = true;
 				}
@@ -491,7 +492,7 @@ public class FrameAltaTernera{
 				try {
 					fechaNacimiento = calendarNac.getDate();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, "Por favor ingrese una fecha válida (DD/MM/AA)", "Alta de ternera",
+					JOptionPane.showMessageDialog(null, "Por favor ingrese una fecha vï¿½lida (DD/MM/AA)", "Alta de ternera",
 							JOptionPane.INFORMATION_MESSAGE);
 				}			
 
@@ -513,7 +514,7 @@ public class FrameAltaTernera{
 					JOptionPane.showMessageDialog(null, "El peso debe tener 4 enteros o menos", "Alta de ternera",
 							JOptionPane.INFORMATION_MESSAGE);
 					try {
-						throw new TamboException("Peso inválido");
+						throw new TamboException("Peso invï¿½lido");
 					} catch (TamboException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -528,7 +529,7 @@ public class FrameAltaTernera{
 				try {
 					tamboBean = EJBLocator.getInstance().lookup(TamboBeanRemote.class);
 					tamboBean.altaTernera(ternera);	
-					JOptionPane.showMessageDialog(null, "La ternera ha sido ingresada con éxito.", "Alta ternera exitosa",
+					JOptionPane.showMessageDialog(null, "La ternera ha sido ingresada con ï¿½xito.", "Alta ternera exitosa",
 							JOptionPane.INFORMATION_MESSAGE);	
 					tbIdGuachera.setText("");
 					tbNroCaravana.setText("");
@@ -583,7 +584,7 @@ public class FrameAltaTernera{
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				int resp = JOptionPane.showConfirmDialog(null,"¿Desea volver al menú anterior? (No se guardarán los datos ingresados)", "Atención", JOptionPane.YES_NO_OPTION);
+				int resp = JOptionPane.showConfirmDialog(null,"ï¿½Desea volver al menï¿½ anterior? (No se guardarï¿½n los datos ingresados)", "Atenciï¿½n", JOptionPane.YES_NO_OPTION);
 				if(JOptionPane.OK_OPTION==resp){
 					FrameInicio inicio = new FrameInicio();
 					FrameAltaTernero.dispose();

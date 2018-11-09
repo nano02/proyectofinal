@@ -173,6 +173,15 @@ public class UsuarioBean implements UsuarioBeanRemote {
 		}
 
 	}
+	
+	public void modificarUsuario(String nombreUsuario, String clave) throws TamboException{
+		Usuario user = buscarUsuario(nombreUsuario);
+		user.setClave(clave);
+		em.merge(user);
+		em.flush();
+	}
+	
+	
 
 	public LinkedList<Usuario> obtenerUsuarios()throws TamboException {
 		LinkedList<Usuario> listaUsuarios = new LinkedList<>();
