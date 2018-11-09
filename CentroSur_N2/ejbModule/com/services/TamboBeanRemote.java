@@ -14,7 +14,7 @@ public interface TamboBeanRemote {
 	//Madre
 	Madre buscarIdMadre(Long idMadre)throws TamboException;
 			
-	//Padre
+	//Padreaa
 	Padre buscarIdPadre(Long idPadre) throws TamboException;
 
 
