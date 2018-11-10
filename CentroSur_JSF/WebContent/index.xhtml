@@ -9,32 +9,33 @@
 <h:head></h:head> 
 <body> 
 <h:form>
-   
-   
-   
-    <p:panel id="panel" header="New User">
+<h:form>
+    <p:panel id="panel" header="CENTRO SUR - GESTIÓN DE TAMBO">
  
         <p:messages id="msgs" />
  
         <h:panelGrid columns="3" cellpadding="5">
-            <p:outputLabel for="user" value="Usuario:" />
-            <p:inputText id="user" value="#{usuario.nombre}" required="true" label="Usuario">
+            <p:outputLabel for="nombreUsuario" value="Usuario:" />
+            <p:inputText id="nombreUsuario" value="#{usuario.nombreUsuario}" required="true" label="Usuario">
                 <f:validateLength minimum="2" />
             </p:inputText>
-            <p:message for="user" display="icon" />
+            <p:message for="nombreUsuario" display="icon" />
  
-            <p:outputLabel for="password" value="Password:" />
-            <p:inputText id="password" value="#{usuario.clave}" label="Password" required="true">
+            <p:outputLabel for="clave" value="Contraseña:" />
+            <p:inputText id="clave" value="#{usuario.clave}" label="Contraseña" required="true">
                 <f:validateLength minimum="2" />
-                <p:ajax update="msgPassword" event="keyup" />
+                <p:ajax update="msgLastname" event="keyup" />
             </p:inputText>
-            <p:message for="pass" id="msgPassword" display="icon" />
+            <p:message for="clave" id="msgLastname" display="icon" />
  
         </h:panelGrid>
  
-        <p:commandButton value="Save" update="panel" actionListener="#{userView.save}" icon="ui-icon-check" />
+        <p:commandButton value="Aceptar" update="panel" action="#{usuario.login()}" icon="pi pi-check" />
     </p:panel>
 </h:form>
+</h:form>
+   
+  
 
 </body> 
 </html>

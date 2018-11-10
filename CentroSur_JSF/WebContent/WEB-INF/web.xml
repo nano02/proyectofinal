@@ -22,7 +22,7 @@
  </servlet-mapping>
  <servlet-mapping>
   <servlet-name>Faces Servlet</servlet-name>
-  <url-pattern>/faces/*</url-pattern>
+  <url-pattern>/centroSur/*</url-pattern>
  </servlet-mapping>
  
      <context-param>

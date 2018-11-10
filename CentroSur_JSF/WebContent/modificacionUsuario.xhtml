@@ -14,25 +14,17 @@
 		<h:panelGrid columns="3" cellpadding="5">
 			<p:outputLabel for="nombre" value="Nombre:" />
 			<p:inputText id="nombre" value="#{usuario.nombre}" required="true"
-				label="Name">
+				label="Nombre">
 				<f:validateLength minimum="2" />
 			</p:inputText>
-			<p:message for="apellido" id="apellido" display="icon" />
-			<p:outputLabel for="clave" value="Contraseña:" />
-			<p:inputText id="clave" value="#{usuario.apellido}" label="Clave"
+			<p:message for="nombre" id="nombre" display="icon" />
+			
+			<p:outputLabel for="clave" value="Password:" />
+			<p:inputText id="clave" value="#{usuario.clave}" label="Clave"
 				required="true">
 				<f:validateLength minimum="2" />
-				<p:ajax update="msgclave" event="keyup" />
 			</p:inputText>
 			<p:message for="clave" id="clave" display="icon" />
-
-			<p:outputLabel for="perfil" value="Perfil:" />
-			<p:inputText id="perfil" value="#{usuario.perfil}" label="Perfil"
-				required="true">
-				<f:validateLength minimum="2" />
-				<p:ajax update="msgPerfil" event="keyup" />
-			</p:inputText>
-			<p:message for="perfil" id="msgPerfil" display="icon" />
 
 		</h:panelGrid>
 

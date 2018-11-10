@@ -6,48 +6,44 @@
 
 <h:head>
 </h:head>
-
 <h:body>
-	<p:panel id="panel" header="usuario">
-
-		<p:messages id="msgs" />
-
-		<h:panelGrid columns="3" cellpadding="5">
-			<p:outputLabel for="nombre" value="Nombre:" />
-			<p:inputText id="nombre" value="#{usuario.nombre}" required="true"
-				label="Name">
-				<f:validateLength minimum="2" />
-			</p:inputText>
-			<p:message for="Nombre" display="icon" />
-
-			<p:outputLabel for="apellido" value="Apellido:" />
-			<p:inputText id="apellido" value="#{usuario.apellido}"
-				label="apellido" required="true">
-				<f:validateLength minimum="2" />
-				<p:ajax update="msgapellido" event="keyup" />
-			</p:inputText>
-			<p:message for="apellido" id="apellido" display="icon" />
-			<p:outputLabel for="clave" value="Contraseña:" />
-			<p:inputText id="clave" value="#{usuario.clave}" label="Clave"
-				required="true">
-				<f:validateLength minimum="2" />
-				<p:ajax update="msgclave" event="keyup" />
-			</p:inputText>
-			<p:message for="clave" id="clave" display="icon" />
-
-			<p:outputLabel for="perfil" value="Perfil:" />
-			<p:inputText id="perfil" value="#{usuario.perfil}" label="Perfil"
-				required="true">
-				<f:validateLength minimum="2" />
-				<p:ajax update="msgPerfil" event="keyup" />
-			</p:inputText>
-			<p:message for="perfil" id="msgPerfil" display="icon" />
-
-
-		</h:panelGrid>
-
-		<p:commandButton value="Crear" update="panel"
-			actionListener="#{usuario.crearUsuario()}" icon="ui-icon-check" />
-	</p:panel>
+	<h:form>
+    <p:panel id="panel" header="ALTA DE USUARIO">
+ 
+        <p:messages id="msgs" />
+ 
+        <h:panelGrid columns="3" cellpadding="5">
+            <p:outputLabel for="nombre" value="Nombre:" />
+            <p:inputText id="nombre" value="#{usuario.nombre}" required="true" label="Nombre">
+                <f:validateLength minimum="2" />
+            </p:inputText>
+            <p:message for="nombre" display="icon" />
+ 
+            <p:outputLabel for="apellido" value="Apellido:" />
+            <p:inputText id="apellido" value="#{usuario.apellido}" label="Apellido" required="true">
+                <f:validateLength minimum="2" />
+                <p:ajax update="msgLastname" event="keyup" />
+            </p:inputText>
+            <p:message for="apellido" id="msgLastname" display="icon" />
+        </h:panelGrid>
+        
+         <h:panelGrid columns="3" cellpadding="5">
+            <p:outputLabel for="clave" value="Password:" />
+            <p:inputText id="clave" value="#{usuario.clave}" required="true" label="Password">
+                <f:validateLength minimum="2" />
+            </p:inputText>
+            <p:message for="clave" display="icon" />
+ 
+            <p:outputLabel for="perfil" value="Perfil: " />
+            <p:selectOneMenu id="perfil" value="#{usuario.perfil}" style="width:150px">
+                <p:ajax listener="#{usuario.perfil}" update="perfil" />
+                <f:selectItem itemLabel="Encargado" itemValue="#{usuario.perfil.valueOf()}" noSelectionOption="true" />
+                <f:selectItem itemLabel="Personal" itemValue="#{usuario.perfil.valueOf()}" noSelectionOption="true" />
+            </p:selectOneMenu>
+        </h:panelGrid>
+        
+        <p:commandButton value="Aceptar" update="panel" action="#{usuario.crearUsuario()}" icon="pi pi-check" />
+    </p:panel>
+</h:form>
 </h:body>
 </html>
