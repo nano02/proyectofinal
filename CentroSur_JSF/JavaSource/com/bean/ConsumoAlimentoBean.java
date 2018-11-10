@@ -44,12 +44,6 @@ public class ConsumoAlimentoBean {
 	 * Getters and Setters
 	 */
 	
-	
-	
-	
-
-
-
 	public TamboBeanRemote getConsumoAlimentoEJBBean() {
 		return consumoAlimentoEJBBean;
 	}

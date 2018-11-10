@@ -13,14 +13,14 @@
 
 		<h:panelGrid columns="3" cellpadding="5">
 			<p:outputLabel for="nombre" value="Nombre:" />
-			<p:inputText id="nombre" value="#{usuario.nombre}" required="true"
+			<p:inputText id="nombre2" value="#{usuario.nombre}" required="true"
 				label="Nombre">
 				<f:validateLength minimum="2" />
 			</p:inputText>
 			<p:message for="nombre" id="nombre" display="icon" />
 			
 			<p:outputLabel for="clave" value="Password:" />
-			<p:inputText id="clave" value="#{usuario.clave}" label="Clave"
+			<p:inputText id="clave2" value="#{usuario.clave}" label="Clave"
 				required="true">
 				<f:validateLength minimum="2" />
 			</p:inputText>

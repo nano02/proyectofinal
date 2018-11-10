@@ -20,6 +20,15 @@ import com.services.UsuarioBeanRemote;
 public class UsuarioBean {
 
 
+	public UsuarioBeanRemote getUsuariosEJBBean() {
+		return usuariosEJBBean;
+	}
+
+
+	public void setUsuariosEJBBean(UsuarioBeanRemote usuariosEJBBean) {
+		this.usuariosEJBBean = usuariosEJBBean;
+	}
+
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
 

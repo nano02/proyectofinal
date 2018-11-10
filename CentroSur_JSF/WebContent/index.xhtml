@@ -5,7 +5,6 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
  
-
 <h:head></h:head> 
 <body> 
 <h:form>
@@ -16,7 +15,7 @@
  
         <h:panelGrid columns="3" cellpadding="5">
             <p:outputLabel for="nombreUsuario" value="Usuario:" />
-            <p:inputText id="nombreUsuario" value="#{usuario.nombreUsuario}" required="true" label="Usuario">
+            <p:inputText id="nombreUsuario" value="#{usuario.nombre}" required="true" label="Usuario">
                 <f:validateLength minimum="2" />
             </p:inputText>
             <p:message for="nombreUsuario" display="icon" />
