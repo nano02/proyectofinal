@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="shortcut icon" href="pic/logoCS.ico" />
+</h:head>
+<body>
+	<h:form>
+		<p:panel>
+			<h1>CentroSur - Gestión de Terneros</h1>
+		</p:panel>
+		<p:menu toggleable="true" style="width: 350px">
+			<p:submenu label="Navegación">
+				<p:menuitem value="Página Principal"
+					action="index?faces-redirect=true" icon="fa fa-home"
+					style="width: 300px !important;" />
+			</p:submenu>
+			<p:submenu label="Terneras">
+				<p:menuitem value="Registro de Terneras"
+					action="registroTerneras?faces-redirect=true" icon="fa fa-plus"
+					style="width: 300px !important;" />
+				<p:menuitem value="Modificación de Tereros"
+					action="modificacionTerneras?faces-redirect=true"
+					icon="fa fa-refresh" style="width: 300px !important;" />
+				<p:menuitem value="Baja de Tereras"
+					action="bajaTerneras?faces-redirect=true" icon="fa fa-refresh"
+					style="width: 300px !important;" />
+				<p:submenu label="Usuarios">
+					<p:menuitem value="Alta de Usuarios"
+						action="altaUsuarios?faces-redirect=true" icon="fa fa-user-plus"
+						style="width: 300px !important;" />
+					<p:menuitem value="Modificación de Usuarios"
+						action="modificacionUsuario?faces-redirect=true"
+						icon="fa fa-refresh" style="width: 300px !important;" />
+					<p:menuitem value="Baja de Usuarios"
+						action="bajaUsuario?faces-redirect=true" icon="fa fa-user-times"
+						style="width: 300px !important;" />
+				</p:submenu>
+			</p:submenu>
+			<p:submenu label="Informes">
+				<p:menuitem value="Costo de Alimentación por Ternera"
+					action="informeCostoDeAlimentacion?faces-redirect=true"
+					icon="fa fa-bar-chart-o" style="width: 300px !important;" />
+				<p:menuitem value="Día de vida en que ocurren Eventos Clínicos"
+					action="informeDiaDeVida?faces-redirect=true"
+					icon="fa fa-area-chart" style="width: 350px !important;" />
+			</p:submenu>
+		</p:menu>
+	</h:form>
+</body>
+</html>

@@ -1,12 +1,17 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import com.entities.Usuario;
 import com.enums.PerfilUsuario;
@@ -14,20 +19,9 @@ import com.excepciones.TamboException;
 import com.services.UsuarioBeanRemote;
 
 
-
 @ManagedBean(name="usuario")
 @SessionScoped
 public class UsuarioBean {
-
-
-	public UsuarioBeanRemote getUsuariosEJBBean() {
-		return usuariosEJBBean;
-	}
-
-
-	public void setUsuariosEJBBean(UsuarioBeanRemote usuariosEJBBean) {
-		this.usuariosEJBBean = usuariosEJBBean;
-	}
 
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
@@ -39,6 +33,7 @@ public class UsuarioBean {
 	private PerfilUsuario perfil;
 	private String nombreUsuario;
 
+	private List<SelectItem> listaPerfiles;
 
 
 
@@ -82,9 +77,28 @@ public class UsuarioBean {
         }
  
     } 
+	
+	public String cancelarLogin() {
+		return "index?faces-redirect=true";
+	}
 
 	
 	
+	@PostConstruct
+	public void cargarCombo() {
+		FacesMessage message = null;
+		try {
+			ArrayList<SelectItem> perfiles = new ArrayList<>();
+			perfiles.add(new SelectItem(PerfilUsuario.ENCARGADO, PerfilUsuario.ENCARGADO.toString()));
+			perfiles.add(new SelectItem(PerfilUsuario.PERSONAL, PerfilUsuario.PERSONAL.toString()));
+			listaPerfiles =  perfiles;
+		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al cargar combo: ", e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
+	
+
 	
 	
 
@@ -94,6 +108,16 @@ public class UsuarioBean {
  */
 
 
+
+
+	public List<SelectItem> getListaPerfiles() {
+		return listaPerfiles;
+	}
+
+
+	public void setListaPerfiles(List<SelectItem> listaPerfiles) {
+		this.listaPerfiles = listaPerfiles;
+	}
 
 
 	public Long getId() {
@@ -144,4 +168,13 @@ public class UsuarioBean {
 		this.nombreUsuario = nombreUsuario;
 	}
 
+	public UsuarioBeanRemote getUsuariosEJBBean() {
+		return usuariosEJBBean;
+	}
+
+
+	public void setUsuariosEJBBean(UsuarioBeanRemote usuariosEJBBean) {
+		this.usuariosEJBBean = usuariosEJBBean;
+	}
+	
 }

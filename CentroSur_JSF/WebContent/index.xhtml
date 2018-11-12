@@ -1,40 +1,50 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
- 
-<h:head></h:head> 
-<body> 
-<h:form>
-<h:form>
-    <p:panel id="panel" header="CENTRO SUR - GESTIÓN DE TAMBO">
- 
-        <p:messages id="msgs" />
- 
-        <h:panelGrid columns="3" cellpadding="5">
-            <p:outputLabel for="nombreUsuario" value="Usuario:" />
-            <p:inputText id="nombreUsuario" value="#{usuario.nombre}" required="true" label="Usuario">
-                <f:validateLength minimum="2" />
-            </p:inputText>
-            <p:message for="nombreUsuario" display="icon" />
- 
-            <p:outputLabel for="clave" value="Contraseña:" />
-            <p:inputText id="clave" value="#{usuario.clave}" label="Contraseña" required="true">
-                <f:validateLength minimum="2" />
-                <p:ajax update="msgLastname" event="keyup" />
-            </p:inputText>
-            <p:message for="clave" id="msgLastname" display="icon" />
- 
-        </h:panelGrid>
- 
-        <p:commandButton value="Aceptar" update="panel" action="#{usuario.login()}" icon="pi pi-check" />
-    </p:panel>
-</h:form>
-</h:form>
-   
-  
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
 
-</body> 
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<link rel="shortcut icon" href="pic/logoCS.ico" />
+</h:head>
+
+<h:body>
+	<p:panel>
+		<h1>CentroSur - Gestión de Terneros</h1>
+	</p:panel>
+	<h:panelGroup layout="block">
+		<br />
+	</h:panelGroup>
+
+	<h:form id="loginForm">
+		<p:growl id="msg" showDetail="true" life="4000" />
+		<p:panel id="loginPnl" header="Login"
+			style="width: 350px; margin: 0 auto;">
+			<h:panelGrid id="loginPanel" columns="2" cellpadding="5">
+				<h:outputText value="Username" />
+				<p:inputText id="username" value="#{usuario.nombreUsuario}"></p:inputText>
+				<p:spacer />
+				<p:spacer />
+				<h:outputText value="Password" />
+				<p:password id="password" value="#{usuario.clave}"
+					feedback="false"></p:password>
+				<p:message for="password"></p:message>
+			</h:panelGrid>
+			<h:panelGrid columns="1" cellpadding="10" width="100%">
+				<p:row>
+					<p:commandButton id="loginButton" action="#{usuario.login}"
+						value="Login" update="loginForm" ajax="true" style="float: left;">
+					</p:commandButton>
+					<p:commandButton id="cancelButton" action="#{usuario.cancelarLogin()}"
+						value="Cancelar" ajax="true" style="float: right;">
+					</p:commandButton>
+				</p:row>
+			</h:panelGrid>
+		</p:panel>
+		<p:blockUI block="loginPnl" trigger="loginButton" style="float:right;">
+		</p:blockUI>
+	</h:form>
+</h:body>
 </html>
