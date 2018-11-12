@@ -52,16 +52,51 @@
 		</p:menu>
 	</h:form>
 	<p:layout style="min-width:400px;min-height:200px;">
-		<p:layoutUnit position="west" resizable="true" size="100" minSize="40"
-			maxSize="200">
-        West
-    </p:layoutUnit>
-
 		<p:layoutUnit position="center">
         Center
+        
     </p:layoutUnit>
 	</p:layout>
+<p:panel id="panel" header="ALTA DE USUARIO">
+		<h:form>
+			<p:messages id="msgs" />
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel for="nombre" value="Nombre:" />
+				<p:inputText id="nombre" value="#{usuario.nombre}" required="true"
+					label="Nombre">
+					<f:validateLength minimum="2" />
+				</p:inputText>
+				<p:message for="nombre" display="icon" />
 
+				<p:outputLabel for="apellido" value="Apellido:" />
+				<p:inputText id="apellido" value="#{usuario.apellido}"
+					label="Apellido" required="true">
+					<f:validateLength minimum="2" />
+					<p:ajax update="msgLastname" event="keyup" />
+				</p:inputText>
+				<p:message for="apellido" id="msgLastname" display="icon" />
+			</h:panelGrid>
+
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel for="clave" value="Password:" />
+				<p:inputText id="clave" value="#{usuario.clave}" required="true"
+					label="Password">
+					<f:validateLength minimum="2" />
+				</p:inputText>
+				<p:message for="clave" display="icon" />
+
+				<p:outputLabel for="perfil" value="Perfil: " />
+				<p:selectOneMenu id="perfil" value="#{usuario.perfil}" effect="fold"
+					editable="false">
+					<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
+					<f:selectItems value="#{usuario.listaPerfiles}" />
+				</p:selectOneMenu>
+			</h:panelGrid>
+
+			<p:commandButton value="Aceptar" update="panel"
+				action="#{usuario.crearUsuario()}" icon="pi pi-check" />
+		</h:form>
+	</p:panel>
 	<p:spacer width="10px"></p:spacer>
 	<p:panel id="panel" header="ALTA DE USUARIO">
 		<h:form>
