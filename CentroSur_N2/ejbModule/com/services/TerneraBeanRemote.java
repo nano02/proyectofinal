@@ -13,9 +13,9 @@ import com.excepciones.TamboException;
 @Remote
 public interface TerneraBeanRemote {
 
-	void altaTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException;
-	void bajaTernera(Long idTernera, Date fechaBaja, String motivo) throws TamboException;
-	void muerteTernera(Long idTernera, Date fechaMuerte, String causaMuerte, Date fechaBaja, String motivoBaja) throws TamboException;
+	void altaTernera(String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException;
+	void bajaTernera( Long idTernena, Date fechaBaja, String motivo) throws TamboException;
+	void muerteTernera(Long idTernera,Date fechaMuerte, String causaMuerte, Date fechaBaja, String motivoBaja) throws TamboException;
 	void eliminarTernera(Long  idTernera) throws TamboException;
 	Ternera buscarTerneraPorIdTodas(Long idTernera) throws TamboException;
 	Ternera buscarTerneraPorIdViva(Long idTernera) throws TamboException ;

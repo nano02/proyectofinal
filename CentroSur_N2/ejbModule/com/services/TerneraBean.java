@@ -101,7 +101,7 @@ public class TerneraBean implements TerneraBeanRemote {
 	};
 
 
-	public void altaTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
+	public void altaTernera(String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
 		try{
 
 			Guachera guachera = new Guachera();
@@ -156,7 +156,7 @@ public class TerneraBean implements TerneraBeanRemote {
 			}
 
 			if(ternera.getBaja().equals(1)){
-				bajaTernera.setIdTernera(idTernera);
+				bajaTernera.getIdTernera();
 			}
 
 			//Validación de peso
@@ -384,6 +384,7 @@ public class TerneraBean implements TerneraBeanRemote {
 		}
 
 	}
+
 
 }
 

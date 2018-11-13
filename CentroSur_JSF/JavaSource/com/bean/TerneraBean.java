@@ -1,12 +1,17 @@
 package com.bean;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
 import com.entities.Guachera;
 import com.entities.Madre;
 import com.entities.Padre;
@@ -36,9 +41,12 @@ public class TerneraBean {
 	private Padre padre;
 	private Double pesoNacimiento;
 	
+	private List<SelectItem> listarRazas;
 	
-	public String altaTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, RazaTernera raza, TipoParto parto, Double pesoNac, Date fechaNacimiento ) throws TamboException {
-		terneraEJBBean.altaTernera(idTernera, nroCaravana, idGuachera, idMadre, idPadre, fechaNacimiento, idPadre, raza, parto, pesoNac);
+	
+	
+	public String altaTernera(String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, RazaTernera raza, TipoParto parto, Double pesoNac, Date fechaNacimiento ) throws TamboException {
+		terneraEJBBean.altaTernera(nroCaravana, idGuachera, idMadre, idPadre, fechaNacimiento, idPadre, raza, parto, pesoNac);
 		return "mostrar";
 	}
 	
@@ -66,6 +74,53 @@ public class TerneraBean {
 	public List<Ternera> buscarTodasTerneras() throws TamboException{
 		return terneraEJBBean.buscarTodasTernera();
 	}
+	
+	
+	public class SelectBooleanView {
+		 
+	    private boolean value1;  
+	    private boolean value2;
+	 
+	    public boolean isValue1() {
+	        return value1;
+	    }
+	 
+	    public void setValue1(boolean value1) {
+	        this.value1 = value1;
+	    }
+	 
+	    public boolean isValue2() {
+	        return value2;
+	    }
+	 
+	    public void setValue2(boolean value2) {
+	        this.value2 = value2;
+	    }
+	     
+	    public void addMessage() {
+	        String summary = value2 ? "Checked" : "Unchecked";
+	        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(summary));
+	    }
+	}
+
+
+	@PostConstruct
+	public void cargarCombo() {
+		FacesMessage message = null;
+		try {
+			ArrayList<SelectItem> razas = new ArrayList<>();
+			razas.add(new SelectItem(RazaTernera.HOLANDO, RazaTernera.HOLANDO.toString()));
+			razas.add(new SelectItem(RazaTernera.JERSEY, RazaTernera.JERSEY.toString()));
+			razas.add(new SelectItem(RazaTernera.CRUZA, RazaTernera.CRUZA.toString()));
+			listarRazas = razas;
+		} catch (Exception e) {
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al cargar combo: ", e.getMessage());
+			FacesContext.getCurrentInstance().addMessage(null, message);
+		}
+	}
+	
+	
+	
 	
 	
 	
@@ -137,6 +192,32 @@ public class TerneraBean {
 	public void setPadre(Padre padre) {
 		this.padre = padre;
 	}
+
+
+	public TerneraBeanRemote getTerneraEJBBean() {
+		return terneraEJBBean;
+	}
+
+
+	public void setTerneraEJBBean(TerneraBeanRemote terneraEJBBean) {
+		this.terneraEJBBean = terneraEJBBean;
+	}
+
+
+	public List<SelectItem> getListarRazas() {
+		return listarRazas;
+	}
+
+
+	public void setListarRazas(List<SelectItem> listarRazas) {
+		this.listarRazas = listarRazas;
+	}
+
+
+	public void setIdTernera(Long idTernera) {
+		this.idTernera = idTernera;
+	}
+
 	
 	
 }

@@ -47,9 +47,9 @@ public class TerneraRest {
    
     @POST
     @Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-    public void addTernera(Long idTernera, String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
+    public void addTernera( String nroCaravana, Long idGuachera, Long idMadre, Long idPadre, Date fechaNac, Long baja, RazaTernera raza, TipoParto parto, Double pesoNac) throws TamboException {
         try {
-        	terneraEJBBean.altaTernera(idTernera, nroCaravana, idGuachera, idMadre, idPadre, fechaNac, baja, raza, parto, pesoNac);
+        	terneraEJBBean.altaTernera(nroCaravana, idGuachera, idMadre, idPadre, fechaNac, baja, raza, parto, pesoNac);
 		} catch (Exception e) {
 			throw new TamboException(e.getMessage());
 		}

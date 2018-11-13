@@ -1,5 +1,6 @@
 package com.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -19,9 +20,15 @@ import com.excepciones.TamboException;
 import com.services.UsuarioBeanRemote;
 
 
+@SuppressWarnings("deprecation")
 @ManagedBean(name="usuario")
 @SessionScoped
-public class UsuarioBean {
+public class UsuarioBean implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	@EJB
 	private UsuarioBeanRemote usuariosEJBBean;
@@ -81,6 +88,10 @@ public class UsuarioBean {
 	public String cancelarLogin() {
 		return "index?faces-redirect=true";
 	}
+	
+	public String cancelar(){
+		return "menuInicio?faces-redirect=true";
+	}
 
 	
 	
@@ -88,7 +99,7 @@ public class UsuarioBean {
 	public void cargarCombo() {
 		FacesMessage message = null;
 		try {
-			ArrayList<SelectItem> perfiles = new ArrayList<>();
+			ArrayList<SelectItem> perfiles = new ArrayList<SelectItem>();
 			perfiles.add(new SelectItem(PerfilUsuario.ENCARGADO, PerfilUsuario.ENCARGADO.toString()));
 			perfiles.add(new SelectItem(PerfilUsuario.PERSONAL, PerfilUsuario.PERSONAL.toString()));
 			listaPerfiles =  perfiles;

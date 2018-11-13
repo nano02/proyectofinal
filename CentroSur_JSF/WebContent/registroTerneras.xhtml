@@ -14,43 +14,82 @@
 		<p:panel>
 			<h1>CentroSur - Gestión de Terneros</h1>
 		</p:panel>
-		<p:menu toggleable="true" style="width: 350px">
-			<p:submenu label="Navegación">
-				<p:menuitem value="Página Principal"
-					action="index?faces-redirect=true" icon="fa fa-home"
-					style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Terneras">
-				<p:menuitem value="Registro de Terneras"
-					action="registroTerneras?faces-redirect=true" icon="fa fa-plus"
-					style="width: 300px !important;" />
-				<p:menuitem value="Modificación de Tereros"
-					action="modificacionTerneras?faces-redirect=true"
-					icon="fa fa-refresh" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Tereras"
-					action="bajaTerneras?faces-redirect=true" icon="fa fa-refresh"
-					style="width: 300px !important;" />
-				<p:submenu label="Usuarios">
-					<p:menuitem value="Alta de Usuarios"
-						action="altaUsuarios?faces-redirect=true" icon="fa fa-user-plus"
-						style="width: 300px !important;" />
-					<p:menuitem value="Modificación de Usuarios"
-						action="modificacionUsuario?faces-redirect=true"
-						icon="fa fa-refresh" style="width: 300px !important;" />
-					<p:menuitem value="Baja de Usuarios"
-						action="bajaUsuario?faces-redirect=true" icon="fa fa-user-times"
-						style="width: 300px !important;" />
-				</p:submenu>
-			</p:submenu>
-			<p:submenu label="Informes">
-				<p:menuitem value="Costo de Alimentación por Ternera"
-					action="informeCostoDeAlimentacion?faces-redirect=true"
-					icon="fa fa-bar-chart-o" style="width: 300px !important;" />
-				<p:menuitem value="Día de vida en que ocurren Eventos Clínicos"
-					action="informeDiaDeVida?faces-redirect=true"
-					icon="fa fa-area-chart" style="width: 350px !important;" />
-			</p:submenu>
-		</p:menu>
+		<p:panel id="panel" header=" Alta de Ternera ">
+
+			<p:messages id="msgs" />
+
+			<h:panelGrid columns="3" cellpadding="5">
+				<p:outputLabel for="nroCaravana" value="No.Caravana:" />
+				<p:inputText id="nroCaravana" value="#{ternera.nroCaravana}"
+					required="true" label="No.Caravana">
+					<f:validateLength minimum="10" />
+				</p:inputText>
+				<p:message for="nroCaravana" display="icon" />
+
+				<p:outputLabel for="idGuachera" value="Guachera:" />
+				<p:inputText id="idGuachera" value="#{ternera.guachera}"
+					label="Guachera" required="true">
+					<f:validateLength minimum="10" />
+					<p:ajax update="idGuachera" event="keyup" />
+				</p:inputText>
+				<p:message for="idGuachera" id="msgidGuachera" display="icon" />
+
+				<p:outputLabel for="idMadre" value="Madre:" />
+				<p:inputText id="idMadre" value="#{ternera.madre}" label="Madre"
+					required="true">
+					<f:validateLength minimum="10" />
+					<p:ajax update="msgidMadre" event="keyup" />
+				</p:inputText>
+				<p:message for="idMadre" id="msgidMadre" display="icon" />
+
+				<p:outputLabel for="idPadre" value="Padre:" />
+				<p:inputText id="idPadre" value="#{ternera.padre}" label="Padre"
+					required="true">
+					<f:validateLength minimum="10" />
+					<p:ajax update="msgidPadre" event="keyup" />
+				</p:inputText>
+				<p:message for="idPadre" id="msgidPadre" display="icon" />
+
+				<p:outputLabel for="fechaNac" value="Fecha de Nacimiento:" />
+				<p:inputText id="fechaNac" value="#{ternera.fechaNac}"
+					label="fechaNac" required="true">
+					<f:validateLength minimum="2" />
+					<p:ajax update="msgfechaNac" event="keyup" />
+				</p:inputText>
+				<p:message for="fechaNac" id="msgfechaNac" display="icon" />
+
+				<p:outputLabel for="raza" value="Raza: " />
+				<p:selectOneMenu id="raza" value="#{ternera.raza}" effect="fold"
+					editable="false">
+					<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
+					<f:selectItems value="#{ternera.listarRazas}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="parto" value="Parto: " />
+				<p:selectOneMenu id="parto" value="#{ternera.parto}" effect="fold"
+					editable="false">
+					<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
+					<f:selectItems value="#{ternera.listarRazas}" />
+				</p:selectOneMenu>
+
+				<p:outputLabel for="pesoNac" value="Peso de Nacimiento:" />
+				<p:inputText id="pesoNac" value="#{ternera.pesoNacimiento}"
+					label="pesoNac" required="true">
+					<f:validateLength minimum="2" />
+					<p:ajax update="msgpesoNac" event="keyup" />
+				</p:inputText>
+
+				<p:message for="pesoNac" id="msgpesoNac" display="icon" />
+				<h:panelGrid columns="2" style="margin-bottom:10px" cellpadding="5">
+					<p:outputLabel for="@next" value="Baja: " />
+					<p:selectBooleanCheckbox value="#{selectBooleanView.value1}" />
+				</h:panelGrid>
+			</h:panelGrid>
+
+
+			<p:commandButton value="Save" update="panel"
+				action="#{ternera.altaTernera()}" icon="pi pi-check" />
+		</p:panel>
 	</h:form>
 </body>
 </html>

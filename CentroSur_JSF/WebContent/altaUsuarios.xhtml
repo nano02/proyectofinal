@@ -1,5 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui">
@@ -9,134 +10,50 @@
 	<link rel="shortcut icon" href="pic/logoCS.ico" />
 </h:head>
 <h:body>
-	<h:form>
+	<p:layoutUnit position="center">
 		<p:panel>
 			<h1>CentroSur - Gestión de Terneros</h1>
 		</p:panel>
-		<p:menu toggleable="true" style="width: 350px">
-			<p:submenu label="Navegación">
-				<p:menuitem value="Página Principal"
-					action="index?faces-redirect=true" icon="fa fa-home"
-					style="width: 300px !important;" />
-			</p:submenu>
-			<p:submenu label="Terneras">
-				<p:menuitem value="Registro de Terneras"
-					action="registroTerneras?faces-redirect=true" icon="fa fa-plus"
-					style="width: 300px !important;" />
-				<p:menuitem value="Modificación de Tereros"
-					action="modificacionTerneras?faces-redirect=true"
-					icon="fa fa-refresh" style="width: 300px !important;" />
-				<p:menuitem value="Baja de Tereras"
-					action="bajaTerneras?faces-redirect=true" icon="fa fa-refresh"
-					style="width: 300px !important;" />
-				<p:submenu label="Usuarios">
-					<p:menuitem value="Alta de Usuarios"
-						action="altaUsuarios?faces-redirect=true" icon="fa fa-user-plus"
-						style="width: 300px !important;" />
-					<p:menuitem value="Modificación de Usuarios"
-						action="modificacionUsuario?faces-redirect=true"
-						icon="fa fa-refresh" style="width: 300px !important;" />
-					<p:menuitem value="Baja de Usuarios"
-						action="bajaUsuario?faces-redirect=true" icon="fa fa-user-times"
-						style="width: 300px !important;" />
-				</p:submenu>
-			</p:submenu>
-			<p:submenu label="Informes">
-				<p:menuitem value="Costo de Alimentación por Ternera"
-					action="informeCostoDeAlimentacion?faces-redirect=true"
-					icon="fa fa-bar-chart-o" style="width: 300px !important;" />
-				<p:menuitem value="Día de vida en que ocurren Eventos Clínicos"
-					action="informeDiaDeVida?faces-redirect=true"
-					icon="fa fa-area-chart" style="width: 350px !important;" />
-			</p:submenu>
-		</p:menu>
-	</h:form>
-	<p:layout style="min-width:400px;min-height:200px;">
-		<p:layoutUnit position="center">
-        Center
-        
-    </p:layoutUnit>
-	</p:layout>
-<p:panel id="panel" header="ALTA DE USUARIO">
-		<h:form>
-			<p:messages id="msgs" />
-			<h:panelGrid columns="3" cellpadding="5">
-				<p:outputLabel for="nombre" value="Nombre:" />
-				<p:inputText id="nombre" value="#{usuario.nombre}" required="true"
-					label="Nombre">
-					<f:validateLength minimum="2" />
-				</p:inputText>
-				<p:message for="nombre" display="icon" />
+		<p:panel id="panel" header="ALTA DE USUARIO">
+			<h:form>
+				<p:messages id="msgs" />
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="nombre" value="Nombre:" />
+					<p:inputText id="nombre" value="#{usuario.nombre}" required="true"
+						label="Nombre">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+					<p:message for="nombre" display="icon" />
 
-				<p:outputLabel for="apellido" value="Apellido:" />
-				<p:inputText id="apellido" value="#{usuario.apellido}"
-					label="Apellido" required="true">
-					<f:validateLength minimum="2" />
-					<p:ajax update="msgLastname" event="keyup" />
-				</p:inputText>
-				<p:message for="apellido" id="msgLastname" display="icon" />
-			</h:panelGrid>
+					<p:outputLabel for="apellido" value="Apellido:" />
+					<p:inputText id="apellido" value="#{usuario.apellido}"
+						label="Apellido" required="true">
+						<f:validateLength minimum="2" />
+						<p:ajax update="msgLastname" event="keyup" />
+					</p:inputText>
+					<p:message for="apellido" id="msgLastname" display="icon" />
+				</h:panelGrid>
 
-			<h:panelGrid columns="3" cellpadding="5">
-				<p:outputLabel for="clave" value="Password:" />
-				<p:inputText id="clave" value="#{usuario.clave}" required="true"
-					label="Password">
-					<f:validateLength minimum="2" />
-				</p:inputText>
-				<p:message for="clave" display="icon" />
-
-				<p:outputLabel for="perfil" value="Perfil: " />
-				<p:selectOneMenu id="perfil" value="#{usuario.perfil}" effect="fold"
-					editable="false">
-					<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
-					<f:selectItems value="#{usuario.listaPerfiles}" />
-				</p:selectOneMenu>
-			</h:panelGrid>
-
-			<p:commandButton value="Aceptar" update="panel"
-				action="#{usuario.crearUsuario()}" icon="pi pi-check" />
-		</h:form>
-	</p:panel>
-	<p:spacer width="10px"></p:spacer>
-	<p:panel id="panel" header="ALTA DE USUARIO">
-		<h:form>
-			<p:messages id="msgs" />
-			<h:panelGrid columns="3" cellpadding="5">
-				<p:outputLabel for="nombre" value="Nombre:" />
-				<p:inputText id="nombre" value="#{usuario.nombre}" required="true"
-					label="Nombre">
-					<f:validateLength minimum="2" />
-				</p:inputText>
-				<p:message for="nombre" display="icon" />
-
-				<p:outputLabel for="apellido" value="Apellido:" />
-				<p:inputText id="apellido" value="#{usuario.apellido}"
-					label="Apellido" required="true">
-					<f:validateLength minimum="2" />
-					<p:ajax update="msgLastname" event="keyup" />
-				</p:inputText>
-				<p:message for="apellido" id="msgLastname" display="icon" />
-			</h:panelGrid>
-
-			<h:panelGrid columns="3" cellpadding="5">
-				<p:outputLabel for="clave" value="Password:" />
-				<p:inputText id="clave" value="#{usuario.clave}" required="true"
-					label="Password">
-					<f:validateLength minimum="2" />
-				</p:inputText>
-				<p:message for="clave" display="icon" />
-
-				<p:outputLabel for="perfil" value="Perfil: " />
-				<p:selectOneMenu id="perfil" value="#{usuario.perfil}" effect="fold"
-					editable="false">
-					<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
-					<f:selectItems value="#{usuario.listaPerfiles}" />
-				</p:selectOneMenu>
-			</h:panelGrid>
-
-			<p:commandButton value="Aceptar" update="panel"
-				action="#{usuario.crearUsuario()}" icon="pi pi-check" />
-		</h:form>
-	</p:panel>
+				<h:panelGrid columns="3" cellpadding="5">
+					<p:outputLabel for="clave" value="Password:" />
+					<p:inputText id="clave" value="#{usuario.clave}" required="true"
+						label="Password">
+						<f:validateLength minimum="2" />
+					</p:inputText>
+					<p:message for="clave" display="icon" />
+					<p:outputLabel for="perfil" value="Perfil: " />
+					<p:selectOneMenu id="perfil" value="#{usuario.perfil}"
+						effect="fold" editable="false">
+						<f:selectItem itemValue="#{null}" itemLabel="-- Seleccionar --" />
+						<f:selectItems value="#{usuario.listaPerfiles}" />
+					</p:selectOneMenu>
+				</h:panelGrid>
+				<p:commandButton value="Aceptar" update="panel"
+					action="#{usuario.crearUsuario()}" icon="pi pi-check" />
+				<p:commandButton value="Cancelar" update="panel"
+					action="#{usuario.cancelar()}" icon="pi pi-check" />
+			</h:form>
+		</p:panel>
+	</p:layoutUnit>
 </h:body>
 </html>
